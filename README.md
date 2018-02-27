@@ -1,6 +1,9 @@
-# gm-state
+Work in progress.
 
-Alt/Redux/Flux inspired pub/sub solution.
+# gm-ebus
+Experimental state management solution inspired by Flux/Redux/Alt.
+
+
 
 
 

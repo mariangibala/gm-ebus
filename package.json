@@ -23,9 +23,8 @@
   "private": false,
   "author": "Marian Gibala",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/mariangi/gm-pubsub#readme",
-  "dependencies": {
-  },
+  "homepage": "https://github.com/mariangibala/gm-ebus",
+  "dependencies": {},
   "devDependencies": {
     "q": "1.5.0",
     "babel-cli": "6.11.4",
