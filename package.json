@@ -10,7 +10,8 @@
     "test:file": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js",
     "test": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js \"./src/**/*.__test__.js\"",
     "demo": "webpack-dev-server --config ./demo/webpack.config.js --open",
-    "demo:production": "cross-env NODE_ENV=production webpack-dev-server --config ./demo/webpack.config.js --open"
+    "demo:production": "cross-env NODE_ENV=production webpack-dev-server --config ./demo/webpack.config.js --open",
+    "prepublishOnly": "yarn run test && yarn run build-cjs"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,11 @@
   "keywords": [
     "pub/sub",
     "flux"
+  ],
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
   ],
   "private": false,
   "author": "Marian Gibala",
