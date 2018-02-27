@@ -1,6 +1,6 @@
 'use strict'
 
-import getOwnProps from '../../../utils/getOwnPropeties'
+import getOwnProps from '../../utils/getOwnPropeties'
 
 function validateModel(storeConfig, StoreModel, CoreModel) {
 

@@ -9,7 +9,7 @@ import moveFunctionsToPrototype from './helpers/moveFunctionsToPrototype'
 import connectMiddleware from './middleware/connect'
 import middlewareLevels from './middleware/levels'
 
-import warn from '../../utils/warn'
+import warn from '../utils/warn'
 
 function createStore(model, storeInterface, passedStoreConfig) {
 

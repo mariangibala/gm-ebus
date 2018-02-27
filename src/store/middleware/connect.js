@@ -2,7 +2,7 @@
 
 import debug from './default/debug'
 import shouldConnect from './shouldConnect'
-import getOwnProps from '../../../utils/getOwnPropeties'
+import getOwnProps from '../../utils/getOwnPropeties'
 
 const defaultMiddleware = {
   debug: debug

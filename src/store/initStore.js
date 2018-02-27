@@ -1,7 +1,7 @@
 'use strict'
 
 import normalizeOptions from '../utils/normalizeOptions'
-import createStore from './core/storeConstructor'
+import createStore from './storeConstructor'
 
 
 function isStoreConfig(a) {
