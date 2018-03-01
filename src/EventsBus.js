@@ -149,15 +149,20 @@ function EBus(eventsBusConfig) {
     }
   }
 
-  function createActions() {
-    return initActions(internalAPI, ...arguments)
+  function connectActions(instance, config){
+    initActions(internalAPI, ...arguments)
+  }
+
+  function connectStore(instance, config){
+    initStore(internalAPI, ...arguments)
   }
 
   return {
     EventsBus: EBus,
     Store: StoreClass,
-    createActions,
-    internals
+    internals,
+    connectActions,
+    connectStore
   }
 }
 

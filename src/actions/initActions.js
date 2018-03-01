@@ -40,7 +40,6 @@ function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
 
   EBusAPI.addActions(namespace, actions)
 
-  return actions
 }
 
 export default initActions

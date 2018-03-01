@@ -1,7 +1,8 @@
 'use strict'
 
 const Q = require('q')
-import bindPromise from '../../actions/bindPromise'
+import {bindPromise, Actions} from '../../index'
+
 
 class StoreModel {
 
@@ -24,7 +25,7 @@ const handlers = {
   }
 }
 
-class AppActions {
+class AppActions extends Actions {
 
   @bindPromise
   increaseStateByPromise(increaseValue, {shouldReject} = {}) {

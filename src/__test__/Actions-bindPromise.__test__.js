@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Actions, Store}  from '../index'
 import bindPromise from '../actions/bindPromise'
 const Q = require('q')
 
@@ -23,7 +23,7 @@ describe('Actions - bindPromise', () => {
 
   it('bindsPromise - decorator method', function (done) {
 
-    class AppActions {
+    class AppActions extends Actions {
 
       @bindPromise
       increaseState(increaseValue,) {
@@ -35,7 +35,8 @@ describe('Actions - bindPromise', () => {
       }
     }
 
-    const actions = EBus.createActions(AppActions)
+
+    const actions = new AppActions(EBus)
     const store = new AppStore()
 
     store.connect(actions, {

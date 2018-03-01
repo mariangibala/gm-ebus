@@ -2,38 +2,35 @@
 
 import getOwnProps from '../utils/getOwnPropeties'
 
-function createActions(model, options_, EBusApi) {
+function createActions(instance, options_, EBusApi) {
+
+  const model = instance.__proto__
 
   const options = {
     ...options_
   }
 
-  class Actions extends model {
-    constructor() {
-      super()
+  instance.namespace = options.namespace
+  instance.listeners = []
 
-      this.namespace = options.namespace
-      this.listeners = []
-    }
-
-    addListener(listener) {
-      this.listeners.push(listener)
-    }
-
-    emitAction(actionName, data) {
-      EBusApi.emitAction(this.namespace, actionName, data)
-    }
-
-    __emitAction(actionName, data) {
-      this.listeners.forEach(store => store.__emitAction(this.namespace, actionName, data))
-    }
+  instance.addListener = function (listener){
+    this.listeners.push(listener)
   }
 
-  const actions = new Actions()
+  instance.emitAction = function (actionName, data) {
+    EBusApi.emitAction(this.namespace, actionName, data)
+  }
 
-  getOwnProps(model.prototype).forEach(actionName => {
+  instance.__emitAction = function (actionName, data) {
+    this.listeners.forEach(store => store.__emitAction(this.namespace, actionName, data))
+  }
 
-    const shouldBindPromise = model.prototype[actionName].bindPromise === true
+
+  const actions = instance
+
+  getOwnProps(model).forEach(actionName => {
+
+    const shouldBindPromise = model[actionName].bindPromise === true
 
     let successFunc
 
@@ -53,8 +50,7 @@ function createActions(model, options_, EBusApi) {
     if (shouldBindPromise) {
 
       callAction = function (...args) {
-
-        model.prototype[actionName].apply(actions, args)
+        model[actionName].apply(actions, args)
           .then(result => {
             actions[successFunc].call(null, result)
           })
@@ -67,7 +63,7 @@ function createActions(model, options_, EBusApi) {
 
     } else {
       callAction = function (...args) {
-        const result = model.prototype[actionName].apply(actions, args)
+        const result = model[actionName].apply(actions, args)
 
         if (typeof result !== 'undefined') {
           actions.emitAction(actionName, result)

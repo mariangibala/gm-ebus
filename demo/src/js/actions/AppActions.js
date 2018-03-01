@@ -2,9 +2,9 @@
 
 import EBus from '../EBus'
 import doRequest from '../API'
-import {bindPromise}  from '../../../../lib'
+import {bindPromise, Actions}  from '../../../../lib'
 
-class AppActions {
+class AppActions extends Actions {
 
   /**
    * Example of manual promise handling
@@ -31,5 +31,5 @@ class AppActions {
 
 }
 
-export default EBus.createActions(AppActions)
+export default new AppActions(EBus)
 

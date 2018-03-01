@@ -182,7 +182,7 @@ describe('Middleware - store', () => {
 
   it('connects middleware to a connected action handler created in constructor', function (done) {
 
-    const actions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class StoreModel {
       constructor() {
@@ -211,7 +211,7 @@ describe('Middleware - store', () => {
 
   it('connects middleware to an action handler created after mounting', function (done) {
 
-    const actions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class StoreModel {
       constructor() {

@@ -39,7 +39,7 @@ describe('PubSub', () => {
 
   it('pub/sub sync action', function (done) {
 
-    const sessionActions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
     class AppStore extends EBus.Store {
       static model = StoreModel
     }
@@ -47,8 +47,8 @@ describe('PubSub', () => {
     const store1 = new AppStore('store1')
     const store2 = new AppStore('store2')
 
-    store1.connect(sessionActions, handlers)
-    store2.connect(sessionActions, handlers)
+    store1.connect(actions, handlers)
+    store2.connect(actions, handlers)
 
     let onChangeCalled = 0
 
@@ -59,9 +59,9 @@ describe('PubSub', () => {
     store1.listen(onChange)
     store2.listen(onChange)
 
-    sessionActions.increaseState(1)
-    sessionActions.increaseState(1)
-    sessionActions.increaseState(1)
+    actions.increaseState(1)
+    actions.increaseState(1)
+    actions.increaseState(1)
 
     assert.equal(store1.getState().value, 3)
     assert.equal(store2.getState().value, 3)
@@ -79,7 +79,7 @@ describe('PubSub', () => {
 
   it('basic sync + async pub/sub', function (done) {
 
-    const sessionActions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class AppStore extends EBus.Store {
       static model = StoreModel
@@ -88,8 +88,8 @@ describe('PubSub', () => {
     const store1 = new AppStore('store1')
     const store2 = new AppStore('store2')
 
-    store1.connect(sessionActions, handlers)
-    store2.connect(sessionActions, handlers)
+    store1.connect(actions, handlers)
+    store2.connect(actions, handlers)
 
     let onChangeCalled = 0
 
@@ -101,14 +101,14 @@ describe('PubSub', () => {
     store1.listen(onChange)
     store2.listen(onChange)
 
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
 
-    sessionActions.increaseStateByPromise(1, {shouldReject: true})
+    actions.increaseStateByPromise(1, {shouldReject: true})
 
     setTimeout(function () {
 
@@ -127,7 +127,7 @@ describe('PubSub', () => {
 
   it('basic pub/sub with batch', function (done) {
 
-    const sessionActions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class AppStore extends EBus.Store {
       static model = StoreModel
@@ -136,8 +136,8 @@ describe('PubSub', () => {
     const store1 = new AppStore({name: 'AppStore1', batch: true})
     const store2 = new AppStore({name: 'AppStore2', batch: true})
 
-    store1.connect(sessionActions, handlers)
-    store2.connect(sessionActions, handlers)
+    store1.connect(actions, handlers)
+    store2.connect(actions, handlers)
 
     let onChangeCalled = 0
 
@@ -148,14 +148,14 @@ describe('PubSub', () => {
     store1.listen(onChange)
     store2.listen(onChange)
 
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
-    sessionActions.increaseStateByPromise(1)
-    sessionActions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
+    actions.increaseStateByPromise(1)
+    actions.increaseState(1)
 
-    sessionActions.increaseStateByPromise(1, {shouldReject: true})
+    actions.increaseStateByPromise(1, {shouldReject: true})
 
 
     setTimeout(function () {

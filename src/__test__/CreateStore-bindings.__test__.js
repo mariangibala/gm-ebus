@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Actions}  from '../index'
 import {StoreModel, AppActions, handlers} from './shared/app'
 
 describe('CreateStore - bindings', () => {
@@ -55,7 +55,7 @@ describe('CreateStore - bindings', () => {
 
   it('can bind actions from store constructor', function (done) {
 
-    const actions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class StoreModel {
 
@@ -84,7 +84,7 @@ describe('CreateStore - bindings', () => {
 
   it('can bind actions on mounted store', function (done) {
 
-    const actions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class AppStore extends EBus.Store {
       static model = StoreModel
@@ -106,7 +106,7 @@ describe('CreateStore - bindings', () => {
 
   it('can bind actions defined as a store connect prop', function (done) {
 
-    const actions = EBus.createActions(AppActions)
+    const actions = new AppActions(EBus)
 
     class StoreModel {
       constructor() {
@@ -141,8 +141,8 @@ describe('CreateStore - bindings', () => {
 
   it('can bind actions defined as a store connect prop for multiple actions', function (done) {
 
-    const actions = EBus.createActions(AppActions, {namespace: 'actions1'})
-    const actions2 = EBus.createActions(AppActions, {namespace: 'actions2'})
+    const actions = new AppActions(EBus, {namespace: 'actions1'})
+    const actions2 = new AppActions(EBus, {namespace: 'actions2'})
 
     class StoreModel {
       constructor() {
