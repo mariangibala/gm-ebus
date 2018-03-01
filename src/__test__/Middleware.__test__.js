@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 import {StoreModel, AppActions, handlers} from './shared/app'
 import doubleNumbers from './shared/doubleNumbers'
 
@@ -16,17 +16,13 @@ describe('Middleware - store', () => {
 
   it('connects middleware to store "native" function', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        value = 0
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -42,25 +38,23 @@ describe('Middleware - store', () => {
 
   it('connects middleware to store func defined in constructor', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        constructor() {
+          this.value = 0
 
-        this.someMethod = function (x) {
-          this.value = x
+          this.someMethod = function (x) {
+            this.value = x
+          }
         }
       }
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
 
       callSomeMethod(x) {
         this.someMethod(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -77,25 +71,23 @@ describe('Middleware - store', () => {
   it('connects middleware to store ARROW func defined in constructor', function (done) {
 
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        constructor() {
+          this.value = 0
 
-        this.someMethod = (x) => {
-          this.value = x
+          this.someMethod = (x) => {
+            this.value = x
+          }
         }
       }
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
 
       callSomeMethod(x) {
         this.someMethod(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -112,25 +104,21 @@ describe('Middleware - store', () => {
 
   it('connects middleware to store method binded with arrow func', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-      }
+    class AppStore extends Store {
+      static model = class {
+        value = 0
 
-      someMethod = (x) => {
-        this.value = x
+        someMethod = (x) => {
+          this.value = x
+        }
       }
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
 
       callSomeMethod(x) {
         this.someMethod(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -147,25 +135,22 @@ describe('Middleware - store', () => {
 
   it('connects middleware to store method', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-      }
 
-      someMethod(x) {
-        this.value = x
-      }
-    }
+    class AppStore extends Store {
+      static model = class {
+        value = 0
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
+        someMethod(x) {
+          this.value = x
+        }
+      }
 
       callSomeMethod(x) {
         this.someMethod(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -184,18 +169,16 @@ describe('Middleware - store', () => {
 
     const actions = new AppActions(EBus)
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-        this.connect(actions, handlers)
+    class AppStore extends Store {
+      static model =  class {
+        constructor() {
+          this.value = 0
+          this.connect(actions, handlers)
+        }
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -213,17 +196,13 @@ describe('Middleware - store', () => {
 
     const actions = new AppActions(EBus)
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        value = 0
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -242,17 +221,13 @@ describe('Middleware - store', () => {
 
   it('connects multiple middleware to a native method', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        value = 0
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [doubleNumbers, doubleNumbers, {connect: doubleNumbers}]
     })
 
@@ -268,17 +243,13 @@ describe('Middleware - store', () => {
 
   it('connects Object middleware to a native method', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
+    class AppStore extends Store {
+      static model = class {
+        value = 0
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [{
         connect: doubleNumbers
       }]
@@ -296,25 +267,23 @@ describe('Middleware - store', () => {
 
   it('Object middleware respects connection config "isActive" field', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-      }
 
-      methodB(x) {
-        this.value = x
-      }
-    }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
+    class AppStore extends Store {
+      static model = class {
+        value = 0
+
+        methodB(x) {
+          this.value = x
+        }
+      }
 
       methodA(x) {
         this.methodB(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [
         {
           connect: doubleNumbers,
@@ -335,25 +304,21 @@ describe('Middleware - store', () => {
 
   it('Object middleware respects connection config "only" field', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-      }
+    class AppStore extends Store {
+      static model = class {
+        value = 0
 
-      methodB(x) {
-        this.value = x
+        methodB(x) {
+          this.value = x
+        }
       }
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
 
       methodA(x) {
         this.methodB(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [
         {
           connect: doubleNumbers,
@@ -373,25 +338,21 @@ describe('Middleware - store', () => {
 
   it('Object middleware respects connection config "exclude" field', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.value = 0
-      }
+    class AppStore extends Store {
+      static model = class StoreModel {
+        value = 0
 
-      methodB(x) {
-        this.value = x
+        methodB(x) {
+          this.value = x
+        }
       }
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
 
       methodA(x) {
         this.methodB(x)
       }
     }
 
-    const store = new AppStore ({
+    const store = new AppStore (EBus, {
       middleware: [
         {
           connect: doubleNumbers,

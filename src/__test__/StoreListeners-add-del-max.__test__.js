@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 const sinon = require('sinon')
 
 describe('Store listeners - add, del, max', () => {
@@ -16,8 +16,8 @@ describe('Store listeners - add, del, max', () => {
 
     sinon.stub(console, 'warn').callsFake(() => {})
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     let x = 102
 
@@ -35,8 +35,8 @@ describe('Store listeners - add, del, max', () => {
 
     sinon.stub(console, 'warn').callsFake(() => {})
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore({maxListeners: 20})
+    class AppStore extends Store {}
+    const store = new AppStore(EBus, {maxListeners: 20})
 
     let x = 22
 
@@ -52,8 +52,8 @@ describe('Store listeners - add, del, max', () => {
 
   it('adds/removes listeners', function (done) {
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     let listeners = store.getListeners()
 
@@ -77,8 +77,8 @@ describe('Store listeners - add, del, max', () => {
 
   it('adds/removes channel listeners', function (done) {
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     let listeners = store.getChannelListeners()
 
@@ -105,8 +105,8 @@ describe('Store listeners - add, del, max', () => {
 
     sinon.stub(console, 'error').callsFake(() => {})
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     let someExternalData = {
       value: 0

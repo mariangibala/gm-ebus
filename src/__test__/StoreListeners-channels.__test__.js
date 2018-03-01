@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus} from '../index'
+import {EventsBus, Store} from '../index'
 
 describe('Store listeners - channels', () => {
 
@@ -15,8 +15,8 @@ describe('Store listeners - channels', () => {
     let calledA = 0
     let calledB = 0
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     store.listen(function () {
       calledA++

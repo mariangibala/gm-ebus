@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 
 describe('Store Interface', () => {
 
@@ -12,8 +12,8 @@ describe('Store Interface', () => {
 
   it('doesn\'t expose private native methods', function (done) {
 
-    class AppStore extends EBus.Store {}
-    const store = new AppStore()
+    class AppStore extends Store {}
+    const store = new AppStore(EBus)
 
     try {
       store.__emitAction()
@@ -26,13 +26,13 @@ describe('Store Interface', () => {
 
   it('doesn\'t expose private userModel methods', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = class {
         someMethod(){}
       }
     }
 
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
     try {
       store.someMethod()
@@ -46,11 +46,11 @@ describe('Store Interface', () => {
 
   it('exposes public Interface methods', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       someMethod(){}
     }
 
-    const store = new AppStore()
+    const store = new AppStore(EBus)
     store.someMethod()
 
     done()

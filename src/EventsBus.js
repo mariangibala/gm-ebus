@@ -143,12 +143,6 @@ function EBus(eventsBusConfig) {
 
   const EBus = new EventsBus()
 
-  const StoreClass = class StoreInterface {
-    constructor(config){
-      initStore(internalAPI, this, config)
-    }
-  }
-
   function connectActions(instance, config){
     initActions(internalAPI, ...arguments)
   }
@@ -159,7 +153,6 @@ function EBus(eventsBusConfig) {
 
   return {
     EventsBus: EBus,
-    Store: StoreClass,
     internals,
     connectActions,
     connectStore

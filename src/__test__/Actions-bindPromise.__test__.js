@@ -13,7 +13,7 @@ describe('Actions - bindPromise', () => {
   beforeEach(function () {
     EBus = EventsBus()
 
-    AppStore = class extends EBus.Store {
+    AppStore = class extends Store {
       static model = class {
         value = 0
       }
@@ -37,7 +37,7 @@ describe('Actions - bindPromise', () => {
 
 
     const actions = new AppActions(EBus)
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
     store.connect(actions, {
       increaseStateSuccess(val) {

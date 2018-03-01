@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus, Actions}  from '../index'
+import {EventsBus, Actions, Store}  from '../index'
 import {StoreModel, AppActions, handlers} from './shared/app'
 
 describe('CreateStore - bindings', () => {
@@ -14,18 +14,16 @@ describe('CreateStore - bindings', () => {
 
   it('throws err when storeModel tries to overwrite core method in constructor', function (done) {
 
-    class StoreModel {
-      constructor() {
-        this.listen = () => {}
+    class AppStore extends Store {
+      static model = class {
+        constructor() {
+          this.listen = () => {}
+        }
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
     try {
-      const store = new AppStore()
+      const store = new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.an('error')
       done()
@@ -35,16 +33,14 @@ describe('CreateStore - bindings', () => {
 
   it('throws err when store tries to overwrite core method as method', function (done) {
 
-    class StoreModel {
-      listen() {}
-    }
-
-    class AppStore extends EBus.Store {
-      static model = StoreModel
+    class AppStore extends Store {
+      static model = class {
+        listen() {}
+      }
     }
 
     try {
-      const store = new AppStore()
+      const store = new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.an('error')
       done()
@@ -57,20 +53,18 @@ describe('CreateStore - bindings', () => {
 
     const actions = new AppActions(EBus)
 
-    class StoreModel {
+    class AppStore extends Store {
+      static model =  class {
 
-      value = 0
+        value = 0
 
-      constructor() {
-        this.connect(actions, handlers)
+        constructor() {
+          this.connect(actions, handlers)
+        }
       }
     }
 
-    class AppStore extends EBus.Store {
-      static model = StoreModel
-    }
-
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
     actions.increaseState(1)
     actions.increaseState(1)
@@ -82,15 +76,15 @@ describe('CreateStore - bindings', () => {
 
   })
 
-  it('can bind actions on mounted store', function (done) {
+  it('can bind actions on a mounted store', function (done) {
 
     const actions = new AppActions(EBus)
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
     store.connect(actions, handlers)
 
@@ -104,7 +98,7 @@ describe('CreateStore - bindings', () => {
 
   })
 
-  it('can bind actions defined as a store connect prop', function (done) {
+  it('can bind actions defined as a model connect prop', function (done) {
 
     const actions = new AppActions(EBus)
 
@@ -122,11 +116,11 @@ describe('CreateStore - bindings', () => {
       }
     ]]
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
 
     actions.increaseState(1)
@@ -139,7 +133,7 @@ describe('CreateStore - bindings', () => {
 
   })
 
-  it('can bind actions defined as a store connect prop for multiple actions', function (done) {
+  it('can bind actions defined as a model connect prop for multiple actions', function (done) {
 
     const actions = new AppActions(EBus, {namespace: 'actions1'})
     const actions2 = new AppActions(EBus, {namespace: 'actions2'})
@@ -164,11 +158,11 @@ describe('CreateStore - bindings', () => {
       }
     ]]
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store = new AppStore()
+    const store = new AppStore(EBus)
 
     actions.increaseState(1)
     actions.increaseState(1)

@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 
 class CustomAppStore {}
 
@@ -16,15 +16,11 @@ describe('CreateStore - naming', () => {
 
   it('creates stores with correct names', function (done) {
 
-    class AppStore extends EBus.Store {
-      constructor(x){
-        super(x)
-      }
-    }
+    class AppStore extends Store {}
 
-    new AppStore()
-    new AppStore('Store2')
-    new AppStore({name: 'Store3'})
+    new AppStore(EBus)
+    new AppStore(EBus, 'Store2')
+    new AppStore(EBus, {name: 'Store3'})
 
     assert.isDefined(EBus.internals.stores.AppStore)
     assert.isDefined(EBus.internals.stores.Store2)
@@ -36,11 +32,11 @@ describe('CreateStore - naming', () => {
 
   it('throws err when name is already taken', function (done) {
 
-    class AppStore extends EBus.Store {}
-    new AppStore()
+    class AppStore extends Store {}
+    new AppStore(EBus)
 
     try {
-      new AppStore()
+      new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.a('Error')
     }
@@ -51,13 +47,13 @@ describe('CreateStore - naming', () => {
 
   it('Creates model and names automatically when model is not passed', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static autoNames = true
     }
 
-    new AppStore()
-    new AppStore()
-    new AppStore()
+    new AppStore(EBus)
+    new AppStore(EBus)
+    new AppStore(EBus)
 
     assert.isDefined(EBus.internals.stores.AppStore1)
     assert.isDefined(EBus.internals.stores.AppStore2)

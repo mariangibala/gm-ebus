@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 import Model from './shared/Model'
 
 describe('Store Instance', () => {
@@ -14,14 +14,14 @@ describe('Store Instance', () => {
 
   it('correct for 1 model, 2 stores', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
       static autoNames = true
     }
 
 
-    const store1 = new AppStore()
-    const store2 = new AppStore()
+    const store1 = new AppStore(EBus)
+    const store2 = new AppStore(EBus)
 
     store1.set('value', 2)
     store2.set('value', 3)
@@ -36,16 +36,16 @@ describe('Store Instance', () => {
 
   it('correct for 1 model, 2 Stores, core method', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = Model
     }
 
-    class AppStore2 extends EBus.Store {
+    class AppStore2 extends Store {
       static model = Model
     }
 
-    const store1 = new AppStore()
-    const store2 = new AppStore2()
+    const store1 = new AppStore(EBus)
+    const store2 = new AppStore2(EBus)
 
     store1.set('value', 2)
     store2.set('value', 3)
@@ -59,7 +59,7 @@ describe('Store Instance', () => {
 
   it('correct for 1 model, 2 Interfaces, 2 stores, interface()->store() method', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = Model
 
       methodB(x){
@@ -68,7 +68,7 @@ describe('Store Instance', () => {
     }
 
 
-    class AppStore2 extends EBus.Store {
+    class AppStore2 extends Store {
       static model = Model
 
       methodB(x){
@@ -76,8 +76,8 @@ describe('Store Instance', () => {
       }
     }
 
-    const store1 = new AppStore()
-    const store2 = new AppStore2()
+    const store1 = new AppStore(EBus)
+    const store2 = new AppStore2(EBus)
 
     store1.methodB(2)
     store2.methodB(3)

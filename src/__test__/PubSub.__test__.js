@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus}  from '../index'
+import {EventsBus, Store}  from '../index'
 import {AppActions, StoreModel, handlers} from './shared/app'
 
 describe('PubSub', () => {
@@ -14,11 +14,11 @@ describe('PubSub', () => {
 
   it('calls callback for new listener, returns state in callback argument', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store1 = new AppStore()
+    const store1 = new AppStore(EBus)
 
     let componentState
 
@@ -40,12 +40,12 @@ describe('PubSub', () => {
   it('pub/sub sync action', function (done) {
 
     const actions = new AppActions(EBus)
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store1 = new AppStore('store1')
-    const store2 = new AppStore('store2')
+    const store1 = new AppStore(EBus, 'store1')
+    const store2 = new AppStore(EBus, 'store2')
 
     store1.connect(actions, handlers)
     store2.connect(actions, handlers)
@@ -81,12 +81,12 @@ describe('PubSub', () => {
 
     const actions = new AppActions(EBus)
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store1 = new AppStore('store1')
-    const store2 = new AppStore('store2')
+    const store1 = new AppStore(EBus, 'store1')
+    const store2 = new AppStore(EBus, 'store2')
 
     store1.connect(actions, handlers)
     store2.connect(actions, handlers)
@@ -129,12 +129,12 @@ describe('PubSub', () => {
 
     const actions = new AppActions(EBus)
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store1 = new AppStore({name: 'AppStore1', batch: true})
-    const store2 = new AppStore({name: 'AppStore2', batch: true})
+    const store1 = new AppStore(EBus, {name: 'AppStore1', batch: true})
+    const store2 = new AppStore(EBus, {name: 'AppStore2', batch: true})
 
     store1.connect(actions, handlers)
     store2.connect(actions, handlers)
@@ -175,7 +175,7 @@ describe('PubSub', () => {
 
   it('can call method on a store Interface', function (done) {
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
       static model = StoreModel
 
       increaseStateDirectMethod(increaseValue) {
@@ -184,7 +184,7 @@ describe('PubSub', () => {
       }
     }
 
-    const store1 = new AppStore()
+    const store1 = new AppStore(EBus)
 
     let onChange1Called = 0
 

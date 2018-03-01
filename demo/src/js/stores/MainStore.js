@@ -1,6 +1,7 @@
 'use strict'
 
 import EBus from '../EBus'
+import {Store}  from '../../../../lib'
 import AppActions from '../actions/AppActions'
 
 class MainStoreModel {
@@ -24,11 +25,11 @@ MainStoreModel.connect = [[
 ]]
 
 
-class MainStore extends EBus.Store {
+class MainStore extends Store {
   static model = MainStoreModel
 }
 
-const store = new MainStore()
+const store = new MainStore(EBus)
 
 export default store
 

@@ -2,6 +2,8 @@
 
 import EBus from '../EBus'
 import AppActions from '../actions/AppActions'
+import {Store}  from '../../../../lib'
+
 
 class SecondaryStoreModel {
 
@@ -24,12 +26,12 @@ SecondaryStoreModel.connect = [[
 ]]
 
 
-class SecondaryStore extends EBus.Store {
+class SecondaryStore extends Store {
   static model = SecondaryStoreModel
   setCustomFunc(){}
 }
 
-const store = new SecondaryStore()
+const store = new SecondaryStore(EBus)
 
 export default store
 
