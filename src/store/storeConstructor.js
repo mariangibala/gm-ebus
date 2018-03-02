@@ -54,39 +54,63 @@ function createStore(model, storeInterface, passedStoreConfig) {
   }
 
 
-  class Store extends model {
+  class InternalStore extends model {
     constructor() {
       super()
 
-      moveFunctionsToPrototype(storeConfig, Store, this)
+      moveFunctionsToPrototype(storeConfig, InternalStore, this)
 
-      connectMiddleware(storeConfig, Store.prototype, this, [
-        {proto: Store.prototype, name: 'Core', level: middlewareLevels.CORE},
-        {proto: model.prototype, name: 'Store model', level: middlewareLevels.STORE},
+      connectMiddleware(storeConfig, InternalStore.prototype, this, [
+        {proto: InternalStore.prototype, name: 'Core', level: middlewareLevels.CORE},
+        {proto: model.prototype, name: 'InternalStore model', level: middlewareLevels.STORE},
       ])
 
-      if (actionsToBind.length) {
-        actionsToBind.forEach(actionsDataArr => connectActions(storeConfig, Store, this, ...actionsDataArr))
+     /* if (actionsToBind.length) {
+        actionsToBind.forEach(actionsDataArr => {
+          connectActions(storeConfig, InternalStore, this, ...actionsDataArr)
+        })
+
         actionsToBind = null
       }
 
       if (model.connect) {
         model.connect.forEach(el => {
-          connectActions(storeConfig, Store, this, el[0], el[1].prototype)
+          connectActions(storeConfig, InternalStore, this, el[0], el[1].prototype)
         })
-      }
+      }*/
 
       internals.isMounted = true
 
     }
 
 
-    connect(actions, handlers) {
-      if (internals.isMounted) {
-        connectActions(storeConfig, Store, this, actions, handlers)
-      } else {
-        actionsToBind.push([actions, handlers])
+    connect(actions, handlers_) {
+
+      let handlers
+      if (handlers_){
+        handlers = handlers_
+      } else if (actions.__proto__.constructor.id){
+        const actionsId = actions.__proto__.constructor.id
+        const actionsHandlers = storeInterface.__proto__.constructor['$'+ actionsId]
+
+        if (actionsHandlers){
+          handlers = actionsHandlers
+        }
       }
+
+      if (!handlers){
+        console.error('Trying to connect actions without handlers')
+        return this
+      }
+
+      if (internals.isMounted) {
+        connectActions(storeConfig, InternalStore, this, actions, handlers)
+      } else {
+        console.error('Actions should be connected to initialized store')
+        //actionsToBind.push([actions, handlers])
+      }
+
+      return this
     }
 
     set(prop, val, e) {
@@ -138,7 +162,8 @@ function createStore(model, storeInterface, passedStoreConfig) {
         internals.channelListeners[channelId] = new Map()
       } else if (internals.channelListeners[channelId].size > storeConfig.maxListeners) {
         warn('maxListeners-' + channelId, internals.warnings,
-          `${storeConfig.name} reached maxListeners (${storeConfig.maxListeners}) for ${channelId} channel`)
+          `${storeConfig.name} reached maxListeners (${storeConfig.maxListeners})` +
+          `for ${channelId} channel`)
       }
 
       if (typeof callback !== 'function') {
@@ -174,15 +199,15 @@ function createStore(model, storeInterface, passedStoreConfig) {
 
   }
 
-  Store.prototype.handlers = {}
-  Store.prototype.getState = decorateWithGetState(storeConfig)
-  Store.prototype.emitChange = decorateWithEmitChange(storeConfig, internals)
-  Store.prototype.internals = internals
+  InternalStore.prototype.handlers = {}
+  InternalStore.prototype.getState = decorateWithGetState(storeConfig)
+  InternalStore.prototype.emitChange = decorateWithEmitChange(storeConfig, internals)
+  InternalStore.prototype.internals = internals
 
 
-  validateModel(storeConfig, model, Store)
+  validateModel(storeConfig, model, InternalStore)
 
-  const store = new Store()
+  const store = new InternalStore()
 
   connectMiddleware(storeConfig, storeInterface, store, [
     {proto: storeInterface.__proto__, name: 'Interface', level: middlewareLevels.INTERFACE}

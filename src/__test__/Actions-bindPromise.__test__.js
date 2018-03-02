@@ -1,30 +1,29 @@
 'use strict'
 
-import {EventsBus, Actions, Store}  from '../index'
+import {EventsBus, Actions, Store} from '../index'
 import bindPromise from '../actions/bindPromise'
+
 const Q = require('q')
 
 describe('Actions - bindPromise', () => {
 
   let EBus
-  let AppStore
+
+  class AppStore extends Store {
+    static model = class {
+      value = 0
+    }
+  }
 
 
   beforeEach(function () {
     EBus = EventsBus()
-
-    AppStore = class extends Store {
-      static model = class {
-        value = 0
-      }
-    }
   })
 
 
   it('bindsPromise - decorator method', function (done) {
 
     class AppActions extends Actions {
-
       @bindPromise
       increaseState(increaseValue,) {
         return Q.Promise(resolve => {
@@ -37,13 +36,13 @@ describe('Actions - bindPromise', () => {
 
 
     const actions = new AppActions(EBus)
-    const store = new AppStore(EBus)
 
-    store.connect(actions, {
-      increaseStateSuccess(val) {
-        this.value += val
-      }
-    })
+    const store = new AppStore(EBus)
+      .connect(actions, {
+        increaseStateSuccess(val) {
+          this.value += val
+        }
+      })
 
     actions.increaseState(1)
     actions.increaseState(1)

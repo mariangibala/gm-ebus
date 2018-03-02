@@ -6,7 +6,6 @@ import Model from './shared/Model'
 describe('Store Instance', () => {
 
   let EBus
-  let StoreModel 
 
   beforeEach(function () {
     EBus = EventsBus()
@@ -15,10 +14,9 @@ describe('Store Instance', () => {
   it('correct for 1 model, 2 stores', function (done) {
 
     class AppStore extends Store {
-      static model = StoreModel
+      static model = Model
       static autoNames = true
     }
-
 
     const store1 = new AppStore(EBus)
     const store2 = new AppStore(EBus)

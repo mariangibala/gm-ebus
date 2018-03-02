@@ -2,9 +2,6 @@
 
 import {EventsBus, Store}  from '../index'
 
-class CustomAppStore {}
-
-
 describe('CreateStore - naming', () => {
 
   let EBus

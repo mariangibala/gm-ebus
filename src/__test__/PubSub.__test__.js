@@ -40,6 +40,7 @@ describe('PubSub', () => {
   it('pub/sub sync action', function (done) {
 
     const actions = new AppActions(EBus)
+
     class AppStore extends Store {
       static model = StoreModel
     }

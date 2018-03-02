@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
+import {EventsBus, Store} from '../index'
 import {StoreModel, AppActions, handlers} from './shared/app'
 import doubleNumbers from './shared/doubleNumbers'
 
@@ -14,7 +14,7 @@ describe('Middleware - store', () => {
   })
 
 
-  it('connects middleware to store "native" function', function (done) {
+  it('connects middleware <--> store "native" function', function (done) {
 
     class AppStore extends Store {
       static model = class {
@@ -22,7 +22,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -36,7 +36,7 @@ describe('Middleware - store', () => {
 
   /////////////////////////
 
-  it('connects middleware to store func defined in constructor', function (done) {
+  it('connects middleware <--> store func defined in constructor', function (done) {
 
     class AppStore extends Store {
       static model = class {
@@ -54,7 +54,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -68,7 +68,7 @@ describe('Middleware - store', () => {
 
   /////////////////////////
 
-  it('connects middleware to store ARROW func defined in constructor', function (done) {
+  it('connects middleware <--> store ARROW func defined in constructor', function (done) {
 
 
     class AppStore extends Store {
@@ -87,7 +87,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -102,7 +102,7 @@ describe('Middleware - store', () => {
 
   /////////////////////////
 
-  it('connects middleware to store method binded with arrow func', function (done) {
+  it('connects middleware <--> store method binded with arrow func', function (done) {
 
     class AppStore extends Store {
       static model = class {
@@ -118,7 +118,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -133,7 +133,7 @@ describe('Middleware - store', () => {
 
   /////////////////////////
 
-  it('connects middleware to store method', function (done) {
+  it('connects middleware <--> store method', function (done) {
 
 
     class AppStore extends Store {
@@ -150,7 +150,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -163,36 +163,10 @@ describe('Middleware - store', () => {
 
   })
 
-  /////////////////////////
-
-  it('connects middleware to a connected action handler created in constructor', function (done) {
-
-    const actions = new AppActions(EBus)
-
-    class AppStore extends Store {
-      static model =  class {
-        constructor() {
-          this.value = 0
-          this.connect(actions, handlers)
-        }
-      }
-    }
-
-    const store = new AppStore (EBus, {
-      middleware: [doubleNumbers]
-    })
-
-    actions.increaseState(5)
-
-    // __emitAction, increaseState
-    assert.equal(store.getState().value, 20)
-    done()
-
-  })
 
   /////////////////////////
 
-  it('connects middleware to an action handler created after mounting', function (done) {
+  it('connects middleware to an action handler passed as an argument', function (done) {
 
     const actions = new AppActions(EBus)
 
@@ -202,7 +176,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers]
     })
 
@@ -216,6 +190,71 @@ describe('Middleware - store', () => {
 
   })
 
+  /////////////////////////
+
+  it('connects middleware to an action handler defined as a static', function (done) {
+
+    const actions = new AppActions(EBus)
+
+    class AppStore extends Store {
+      static model = class {
+        value = 0
+      }
+
+      static $AppActions = class {
+        increaseState(increaseValue) {
+          this.value += increaseValue
+        }
+      }
+    }
+
+    const store = new AppStore(EBus, {
+      middleware: [doubleNumbers]
+    })
+
+    store.connect(actions)
+
+    actions.increaseState(5)
+
+    assert.equal(store.getState().value, 20)
+    done()
+
+  })
+
+  /////////////////////////
+
+  it('connects middleware to an action handler defined as a static (multiple instances)',
+    function (done) {
+
+      const actions = new AppActions(EBus, {namespace: 'actions1'})
+      const actions2 = new AppActions(EBus, {namespace: 'actions2'})
+
+      class AppStore extends Store {
+        static model = class {
+          value = 0
+        }
+
+        static $AppActions = class {
+          increaseState(increaseValue) {
+            this.value += increaseValue
+          }
+        }
+      }
+
+      const store = new AppStore(EBus, {
+        middleware: [doubleNumbers]
+      })
+
+      store.connect(actions)
+      store.connect(actions2)
+
+      actions.increaseState(5)
+      actions2.increaseState(5)
+
+      assert.equal(store.getState().value, 40)
+      done()
+
+    })
 
   /////////////////////////
 
@@ -227,7 +266,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [doubleNumbers, doubleNumbers, {connect: doubleNumbers}]
     })
 
@@ -249,7 +288,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [{
         connect: doubleNumbers
       }]
@@ -268,7 +307,6 @@ describe('Middleware - store', () => {
   it('Object middleware respects connection config "isActive" field', function (done) {
 
 
-
     class AppStore extends Store {
       static model = class {
         value = 0
@@ -283,7 +321,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [
         {
           connect: doubleNumbers,
@@ -318,7 +356,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [
         {
           connect: doubleNumbers,
@@ -352,7 +390,7 @@ describe('Middleware - store', () => {
       }
     }
 
-    const store = new AppStore (EBus, {
+    const store = new AppStore(EBus, {
       middleware: [
         {
           connect: doubleNumbers,

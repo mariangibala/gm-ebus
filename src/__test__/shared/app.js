@@ -27,6 +27,8 @@ const handlers = {
 
 class AppActions extends Actions {
 
+  static id = 'AppActions'
+
   @bindPromise
   increaseStateByPromise(increaseValue, {shouldReject} = {}) {
     return Q.Promise((resolve, reject) => {
