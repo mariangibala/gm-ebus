@@ -15,7 +15,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1>GM-EBus demo</h1>
+        <h1>gm-ebus demo</h1>
 
         <div id="dashboard">
           <Module1/>
