@@ -11,7 +11,7 @@ class AppActionsModel extends Actions {
    * Example of manual promise handling
    */
   callFooAPI() {
-    doRequest('/a').then(result => {
+    doRequest('/foo').then(result => {
       this.callFooAPICustomSuccessFunc(result)
     }).catch(err => {
       console.log(err)
@@ -27,7 +27,7 @@ class AppActionsModel extends Actions {
    */
   @bindPromise
   callBarAPI() {
-    return doRequest('/b')
+    return doRequest('/bar')
   }
 
 }

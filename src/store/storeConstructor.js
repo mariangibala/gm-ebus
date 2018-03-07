@@ -65,20 +65,6 @@ function createStore(model, storeInterface, passedStoreConfig) {
         {proto: model.prototype, name: 'InternalStore model', level: middlewareLevels.STORE},
       ])
 
-     /* if (actionsToBind.length) {
-        actionsToBind.forEach(actionsDataArr => {
-          connectActions(storeConfig, InternalStore, this, ...actionsDataArr)
-        })
-
-        actionsToBind = null
-      }
-
-      if (model.connect) {
-        model.connect.forEach(el => {
-          connectActions(storeConfig, InternalStore, this, el[0], el[1].prototype)
-        })
-      }*/
-
       internals.isMounted = true
 
     }
@@ -106,8 +92,7 @@ function createStore(model, storeInterface, passedStoreConfig) {
       if (internals.isMounted) {
         connectActions(storeConfig, InternalStore, this, actions, handlers)
       } else {
-        console.error('Actions should be connected to initialized store')
-        //actionsToBind.push([actions, handlers])
+        throw new Error('Actions should be connected to an initialized store')
       }
 
       return this

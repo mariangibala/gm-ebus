@@ -11,9 +11,20 @@ function createActions(instance, options_, EBusApi) {
   }
 
   instance.namespace = options.namespace
+
+  if (options.inject) {
+    options.inject.forEach(el => {
+      if (!el.id) {
+        throw new Error('Can\'t inject actions without an ID')
+      }
+
+      instance['$' + el.id] = el
+    })
+  }
+
   instance.listeners = []
 
-  instance.addListener = function (listener){
+  instance.addListener = function (listener) {
     this.listeners.push(listener)
   }
 

@@ -1,27 +1,27 @@
 'use strict'
 
-/*
-API mock
+/**
+ * API mock
  */
 
 const API = {
-  a: 1,
-  b: 1,
-  c: 1,
+  foo: 1,
+  bar: 1,
 
-  '/a'() {
-    this.a += 1
-    return this.a
+  '/foo'() {
+    this.foo += 1
+    return this.foo
   },
 
-  '/b'() {
-    this.b += 1
-    return this.b
+  '/bar'() {
+    this.bar += 1
+    return this.bar
   }
 }
 
-/*
-In real app it would be some http module like superagent
+/**
+ *
+ * In a real app it would be some http module like superagent
  */
 function doRequest(endpoint) {
   return new Promise(resolve => {

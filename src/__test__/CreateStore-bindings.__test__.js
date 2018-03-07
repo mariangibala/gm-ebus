@@ -23,7 +23,7 @@ describe('CreateStore - bindings', () => {
     }
 
     try {
-      const store = new AppStore(EBus)
+      new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.an('error')
       done()
@@ -40,7 +40,7 @@ describe('CreateStore - bindings', () => {
     }
 
     try {
-      const store = new AppStore(EBus)
+      new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.an('error')
       done()
@@ -62,13 +62,12 @@ describe('CreateStore - bindings', () => {
     }
 
     try {
-      const store = new AppStore(EBus)
+      new AppStore(EBus)
     } catch (err) {
       expect(err).to.be.an('error')
       done()
     }
 
-    done()
 
   })
 
