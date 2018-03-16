@@ -13,7 +13,7 @@ describe('Actions - dependencies', () => {
   }
 
   class AppActions2 extends Actions {
-    id = 'AppActions2'
+    static id = 'AppActions2'
 
     increaseState(increaseValue,) {
       return increaseValue
@@ -25,6 +25,7 @@ describe('Actions - dependencies', () => {
     EBus = EventsBus()
   })
 
+  ////////////////////
 
   it('can use injected actions', function (done) {
 
@@ -67,7 +68,7 @@ describe('Actions - dependencies', () => {
     }
 
     class AppActions2 extends Actions {
-      id = 'AppActions2'
+      static id = 'AppActions2'
 
       increaseState(increaseValue,) {
         return increaseValue

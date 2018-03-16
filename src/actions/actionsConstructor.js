@@ -14,12 +14,12 @@ function createActions(instance, options_, EBusApi) {
 
   if (options.inject) {
     options.inject.forEach(el => {
-      if (!el.id) {
-        throw new Error(`Can\'t inject actions (${el.constructor.name} - ${el.namespace})` +
+      if (!el.constructor.id) {
+        throw new Error(`Can\'t inject actions (${el.constructor.name} - ${el.namespace}) ` +
           `without an ID to ${instance.constructor.name} - ${instance.namespace}`)
       }
 
-      instance['$' + el.id] = el
+      instance['$' + el.constructor.id] = el
     })
   }
 

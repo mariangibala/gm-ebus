@@ -95,7 +95,7 @@ function createStore(model, storeInterface, passedStoreConfig) {
         throw new Error('Actions should be connected to an initialized store')
       }
 
-      return this
+      return storeInterface
     }
 
     set(prop, val, e) {

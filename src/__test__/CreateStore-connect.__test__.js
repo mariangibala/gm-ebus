@@ -49,7 +49,7 @@ describe('CreateStore - bindings', () => {
   })
 
 
-  it('throws err when binding actions from store constructor', function (done) {
+  it('throws err when connecting actions from store constructor', function (done) {
 
     const actions = new AppActions(EBus)
 
@@ -68,10 +68,32 @@ describe('CreateStore - bindings', () => {
       done()
     }
 
+  })
+
+
+  it('connect returns correct model', function (done) {
+
+    /**
+     * connect is supposed to return a public instance with exposed methods,
+     * NOT internal store model
+     */
+
+    const actions = new AppActions(EBus)
+
+    class AppStore extends Store {
+      static model = StoreModel
+    }
+
+    const store = new AppStore(EBus).connect(actions, handlers)
+
+    assert.equal(store.constructor === AppStore, true)
+
+    done()
 
   })
 
-  it('can bind actions on a mounted store', function (done) {
+
+  it('can connect actions to a mounted store', function (done) {
 
     const actions = new AppActions(EBus)
 
@@ -93,7 +115,7 @@ describe('CreateStore - bindings', () => {
 
   })
 
-  it('can bind actions to a static handler', function (done) {
+  it('can connect actions to a static handler', function (done) {
 
     const actions = new AppActions(EBus)
 
@@ -122,7 +144,7 @@ describe('CreateStore - bindings', () => {
 
   })
 
-  it('can bind multiple instance actions to a static handler', function (done) {
+  it('can connect multiple instance actions to a static handler', function (done) {
 
     const actions = new AppActions(EBus, {namespace: 'actions1'})
     const actions2 = new AppActions(EBus, {namespace: 'actions2'})
