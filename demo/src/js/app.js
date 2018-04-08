@@ -2,13 +2,13 @@
 
 import ReactDOM from 'react-dom'
 
-import Module1 from './components/module1'
-import Module2 from './components/module2'
-import Module3 from './components/module3'
-import Module4 from './components/module4'
-import Module5 from './components/module5'
-import Module6 from './components/module6'
-import Module7 from './components/module7'
+import Module1 from './components/Module1'
+import Module2 from './components/Module2'
+import Module3 from './components/Module3'
+import Module4 from './components/Module4'
+import Module5 from './components/Module5'
+import Module6 from './components/Module6'
+import Module7 from './components/Module7'
 
 class Home extends React.Component {
 
