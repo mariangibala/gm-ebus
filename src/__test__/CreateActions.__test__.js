@@ -2,7 +2,7 @@
 
 import {EventsBus, Actions, Store} from '../index'
 
-describe('Actions - dependencies', () => {
+describe('Actions - create', () => {
 
   let EBus
 
