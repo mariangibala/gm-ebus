@@ -8,8 +8,7 @@ function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
 
   actionsOptions = normalizeOptions(actionsOptions)
 
-
-  let modelName = actionsModel.name
+  let modelName = actionsModel.constructor.id || actionsModel.constructor.name
 
   /*
    Production configs usually minimize class names,
