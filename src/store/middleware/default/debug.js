@@ -19,10 +19,12 @@ const colorsMap = {}
 function debugMiddlewareHandler(methodConfig, args) {
 
   const {
-    logFuncInArgs,
     config,
     log
   } = methodConfig
+
+  const logFuncInArgs = config.logFuncInArgs
+
 
   let logArgs
 
@@ -118,7 +120,6 @@ function connect(storeConfig, methodName, middlewareConfig) {
   return debugMiddlewareHandler.bind(null, {
     log,
     config,
-    logFuncInArgs: false
   }, /*args*/)
 
 }
