@@ -101,9 +101,10 @@ function EBus(eventsBusConfig) {
       } catch (err) {
         /*
         Errors here are thrown by action handlers.
-        Initialy logged only in debug mode but it hides all errors thrown in action handlers.
-        You are literally blind then - so keep it independend from debug mode!
+        Initially logged only in debug mode but it hides all errors thrown in action handlers.
+        You are literally blind then - so keep it independent from debug mode!
          */
+
         console.error(err) // throw it or log?
       } finally {
         internals.isDispatching = false
