@@ -1,6 +1,6 @@
 {
   "name": "gm-ebus",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "State manager",
   "main": "./lib/index.js",
   "scripts": {
