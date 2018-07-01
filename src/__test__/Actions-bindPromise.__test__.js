@@ -57,6 +57,20 @@ describe('Actions - bindPromise', () => {
 
   })
 
+  it('@bindPromise - throws when func is missing return statement', function (done) {
+
+    try {
+      class AppActions extends Actions {
+        @bindPromise
+        increaseState() {}
+      }
+    } catch (err){
+      expect(err).to.be.an('error')
+      done()
+    }
+
+  })
+
 
 })
 

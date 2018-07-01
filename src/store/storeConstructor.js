@@ -174,6 +174,12 @@ function createStore(model, storeInterface, passedStoreConfig) {
     __emitAction(namespace, actionName, data) {
       if (this.handlers[namespace][actionName]) {
         const result = this.handlers[namespace][actionName](data)
+        /**
+         * Return false from handler to prevent default emitChange behaviour
+         * triggered by ACTION HANDLERS
+         * Caution - functions called directly on store DON'T emit change as
+         * a default behaviour, use this.emitChange() in that case
+         */
         if (result !== false) this.emitChange()
       }
     }
