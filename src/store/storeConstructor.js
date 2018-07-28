@@ -11,7 +11,7 @@ import middlewareLevels from './middleware/levels'
 
 import warn from '../utils/warn'
 
-function createStore(model, storeInterface, passedStoreConfig) {
+function createStore(Model, storeInterface, passedStoreConfig) {
 
   const storeConfig = {
     debug: {
@@ -54,7 +54,7 @@ function createStore(model, storeInterface, passedStoreConfig) {
   }
 
 
-  class InternalStore extends model {
+  class InternalStore extends Model {
     constructor() {
       super()
 
@@ -62,7 +62,7 @@ function createStore(model, storeInterface, passedStoreConfig) {
 
       connectMiddleware(storeConfig, InternalStore.prototype, this, [
         {proto: InternalStore.prototype, name: 'Core', level: middlewareLevels.CORE},
-        {proto: model.prototype, name: 'InternalStore model', level: middlewareLevels.STORE},
+        {proto: Model.prototype, name: 'InternalStore Model', level: middlewareLevels.STORE},
       ])
 
       internals.isMounted = true
@@ -196,7 +196,7 @@ function createStore(model, storeInterface, passedStoreConfig) {
   InternalStore.prototype.internals = internals
 
 
-  validateModel(storeConfig, model, InternalStore)
+  validateModel(storeConfig, Model, InternalStore)
 
   const store = new InternalStore()
 
@@ -213,7 +213,6 @@ function createStore(model, storeInterface, passedStoreConfig) {
     'set',
     'connect',
 
-    // todo hide in production
     'getListeners',
     'getChannelListeners',
     'getConfig',

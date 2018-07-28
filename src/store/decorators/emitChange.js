@@ -1,7 +1,7 @@
 'use strict'
 
 /*
-Used to decorate StoreModel with emitChange function
+ Decorates StoreModel with emitChange function
  */
 
 function includeEmitChange(storeConfig, internals) {
@@ -34,7 +34,9 @@ function includeEmitChange(storeConfig, internals) {
     const batchTime = 30 // how long cumulate batch events?
 
     return function (changeId) {
-      if (internals.lastChangeTime && (Date.now() - internals.lastChangeTime) < batchTime) return
+      if (internals.lastChangeTime && (Date.now() - internals.lastChangeTime) < batchTime) {
+        return
+      }
 
       internals.lastChangeTime = Date.now()
 

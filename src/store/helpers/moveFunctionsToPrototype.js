@@ -1,6 +1,6 @@
 'use strict'
 
-function moveFunctionsToPrototype (storeConfig, coreModel, instance){
+function moveFunctionsToPrototype(storeConfig, coreModel, instance) {
   Object.keys(instance).forEach(key => {
 
     if (typeof instance[key] === 'function') {

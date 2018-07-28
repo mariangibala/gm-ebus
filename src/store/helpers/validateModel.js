@@ -12,4 +12,4 @@ function validateModel(storeConfig, StoreModel, CoreModel) {
     })
 }
 
-export default  validateModel
+export default validateModel
