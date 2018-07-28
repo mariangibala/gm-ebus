@@ -6,7 +6,7 @@
   "scripts": {
     "build-cjs": "rimraf lib && babel ./src -d lib",
     "dev": "rimraf lib && babel ./src -d lib --watch",
-    "benchmark": "babel-node ./benchmark/index.js ",
+    "perf": "mocha --compilers js:babel-core/register \"./src/**/*.__perf__.js\"",
     "test:file": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js",
     "test": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js \"./src/**/*.__test__.js\"",
     "demo": "webpack-dev-server --config ./demo/webpack.config.js --open",

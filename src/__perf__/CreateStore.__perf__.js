@@ -1,26 +1,39 @@
 'use strict'
 
-import {EventsBus} from '../index'
+import {EventsBus, Store} from '../index'
 
-let startTime = Date.now()
 
-for (let x = 0; x < 100; x++) {
-  let EBus = EventsBus()
+describe('createStore', () => {
 
-  class AppStore extends EBus.Store {
-    static autoNames = true
-  }
 
-  let store
+  it('time and memory', function (done) {
+    this.timeout(10000)
+    let startTime = Date.now()
 
-  for (let y = 0; y < 500; y++) {
-    store = new AppStore()
-  }
-}
+    for (let x = 0; x < 100; x++) {
+      let EBus = new EventsBus()
 
-const time = Date.now() - startTime
-const used = Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+      class AppStore extends Store {
+        static autoNames = true
+      }
 
-console.log(`Took ${time} ms`)
-console.log(`The script uses approximately ${used} MB`)
+      let store
+
+      for (let y = 0; y < 500; y++) {
+        store = new AppStore(EBus)
+      }
+    }
+
+    const time = Date.now() - startTime
+    const used = Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+
+    console.log(`Took ${time} ms`)
+    console.log(`The script uses approximately ${used} MB`)
+    done()
+
+  })
+
+})
+
+
 

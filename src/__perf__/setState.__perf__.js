@@ -1,13 +1,13 @@
 'use strict'
 
-import {EventsBus} from '../index'
+import {EventsBus, Store} from '../index'
 
 function benchmark(config) {
   return new Promise((resolve, reject) => {
     const iterations = 10000
-    const EBus = EventsBus()
+    const EBus = new EventsBus()
 
-    class AppStore extends EBus.Store {
+    class AppStore extends Store {
 
       static model = class {
         value = 0
@@ -21,7 +21,7 @@ function benchmark(config) {
       }
     }
 
-    const store = new AppStore (config)
+    const store = new AppStore (EBus, config)
 
     const logConfig = {...config}
     delete logConfig.name
@@ -60,4 +60,16 @@ async function init() {
   await benchmark({getStateMethod: 'stringify', batch: true})
 }
 
-init()
+describe('setState', () => {
+
+
+  it('getStateMethod 10000 store actions', function (done) {
+    this.timeout(10000)
+
+    init().then(()=>{
+      done()
+    })
+
+  })
+
+})

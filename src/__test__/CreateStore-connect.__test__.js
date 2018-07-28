@@ -11,8 +11,20 @@ describe('CreateStore - bindings', () => {
     EBus = EventsBus()
   })
 
+  it('throws when StoreModel is missing EventBus argument', function (done) {
 
-  it('throws err when storeModel tries to overwrite core method in constructor', function (done) {
+    class AppStore extends Store {}
+
+    try {
+      new AppStore()
+    } catch (err) {
+      expect(err).to.be.an('error')
+      done()
+    }
+
+  })
+
+  it('throws when StoreModel tries to overwrite core method in constructor', function (done) {
 
     class AppStore extends Store {
       static model = class {

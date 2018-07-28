@@ -1,7 +1,8 @@
 'use strict'
 
-import initStore from'./store/initStore'
-import initActions from'./actions/initActions'
+import initStore from './store/initStore'
+import initActions from './actions/initActions'
+
 const packageJSON = require('../package.json')
 
 function EBus(eventsBusConfig) {
@@ -100,9 +101,9 @@ function EBus(eventsBusConfig) {
         internals.actions[namespace].__emitAction(actionName, data)
       } catch (err) {
         /*
-        Errors here are thrown by action handlers.
-        Initially logged only in debug mode but it hides all errors thrown in action handlers.
-        You are literally blind then - so keep it independent from debug mode!
+         Errors here are thrown by action handlers.
+         Initially logged only in debug mode but it hides all errors thrown in action handlers.
+         You are literally blind then - so keep it independent from debug mode!
          */
 
         console.error(err) // throw it or log?
@@ -144,11 +145,11 @@ function EBus(eventsBusConfig) {
 
   const EBus = new EventsBus()
 
-  function connectActions(instance, config){
+  function connectActions(instance, config) {
     initActions(internalAPI, ...arguments)
   }
 
-  function connectStore(instance, config){
+  function connectStore(instance, config) {
     initStore(internalAPI, ...arguments)
   }
 
