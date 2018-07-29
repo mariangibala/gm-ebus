@@ -39,6 +39,7 @@ function EBus(eventsBusConfig) {
       value: 0,
       writable: true,
     },
+
     actionsIdCounter: {
       enumerable: true,
       value: 0,
@@ -89,7 +90,9 @@ function EBus(eventsBusConfig) {
     },
 
     emitAction(namespace, actionName, data) {
-      if (internals.config.debug) console.log('EBus emitAction: ', namespace, actionName)
+      if (internals.config.debug && internals.config.debug.isActive) {
+        console.log('EBus emitAction: ', namespace, actionName)
+      }
 
       if (internals.isDispatching) {
         throw 'Cannot dispatch in the middle of dispatching.'
