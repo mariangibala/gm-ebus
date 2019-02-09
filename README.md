@@ -4,6 +4,7 @@ Work in progress.
 Experimental state management solution. 
 
 [![Build Status](https://travis-ci.org/mariangibala/gm-ebus.svg?branch=master)](https://travis-ci.org/mariangibala/gm-ebus)
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
 ## Why?
 
