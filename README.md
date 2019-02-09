@@ -7,7 +7,7 @@ Experimental state management solution.
 
 ## Why?
 
-Trying to connect good parts of Flux and MVC. Contrary to pure Flux implementations, store setters are acceptable here for data manipulation within store context. Actions are used for network requests and when event is handled by multiple stores. 
+Trying to connect good parts of Flux and MVC. Contrary to pure Flux implementations, store setters are acceptable here for synchronous data manipulation within store context. Actions are used for async calls (for example network requests) and when an event is handled by multiple stores. 
 
 ![gm-ebus](/img/gm-ebus.png?raw=true)
 
