@@ -8,4 +8,11 @@ const renderApp = function(Component){
   ReactDOM.render(<Component/>, document.getElementById('app'))
 }
 
+if (module.hot){
+  module.hot.accept('./App', function(){
+    const NextApp = require('./App').default;
+    renderApp(NextApp)
+  })
+}
+
 renderApp(App)
