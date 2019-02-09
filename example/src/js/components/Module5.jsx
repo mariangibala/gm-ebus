@@ -3,7 +3,7 @@
 import SecondaryStore from '../stores/SecondaryStore'
 import MainStore from '../stores/MainStore'
 
-class Module4 extends React.Component {
+class Module5 extends React.Component {
 
   state = {
     mainStore: {},
@@ -16,7 +16,7 @@ class Module4 extends React.Component {
   }
 
   componentWillUnmount() {
-    MainStore.listen(this.onChangeMainStore)
+    MainStore.unlisten(this.onChangeMainStore)
     SecondaryStore.unlisten(this.onChangeSecondaryStore)
   }
 
@@ -39,5 +39,5 @@ class Module4 extends React.Component {
 }
 
 
-module.exports = Module4
+module.exports = Module5
 

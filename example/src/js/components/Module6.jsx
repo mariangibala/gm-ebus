@@ -2,7 +2,7 @@
 
 import MainStore from '../stores/MainStore'
 
-class Module1 extends React.Component {
+class Module6 extends React.Component {
 
   state = {}
 
@@ -26,17 +26,18 @@ class Module1 extends React.Component {
     return (
       <div className="module">
         <h3>6</h3>
-        <input onChange={this.update}
-               value={this.state.sliderValue}
-               type="range"
-               min="0"
-               max="500"
-               step="1" />
+        <input
+          onChange={this.update}
+          value={this.state.sliderValue}
+          type="range"
+          min="0"
+          max="500"
+          step="1"/>
       </div>
     )
   }
 }
 
 
-module.exports = Module1
+module.exports = Module6
 

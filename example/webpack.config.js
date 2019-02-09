@@ -40,7 +40,7 @@ const webpackConfig = {
     filename: 'App.js',
     publicPath: '/'
   },
-  entry: path.join(__dirname, 'src/js/app.js'),
+  entry: path.join(__dirname, 'src/js/entry.js'),
   devtool: '',
   watchOptions: {
     poll: 5000

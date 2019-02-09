@@ -1,7 +1,5 @@
 'use strict'
 
-import ReactDOM from 'react-dom'
-
 import Module1 from './components/Module1'
 import Module2 from './components/Module2'
 import Module3 from './components/Module3'
@@ -10,12 +8,12 @@ import Module5 from './components/Module5'
 import Module6 from './components/Module6'
 import Module7 from './components/Module7'
 
-class Home extends React.Component {
+class App extends React.Component {
 
   render() {
     return (
       <div>
-        <h1>gm-ebus demo</h1>
+        <h1>gm-ebus example</h1>
 
         <div id="dashboard">
           <Module1/>
@@ -32,6 +30,4 @@ class Home extends React.Component {
   }
 }
 
-
-ReactDOM.render(<Home/>, document.getElementById('app'))
-
+export default App
