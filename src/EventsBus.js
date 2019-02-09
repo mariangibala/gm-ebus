@@ -5,7 +5,7 @@ import initActions from './actions/initActions'
 
 const packageJSON = require('../package.json')
 
-function EBus(eventsBusConfig) {
+function EBusConstructor(eventsBusConfig) {
 
   const internals = {}
 
@@ -165,4 +165,4 @@ function EBus(eventsBusConfig) {
 }
 
 
-export default EBus
+export default EBusConstructor
