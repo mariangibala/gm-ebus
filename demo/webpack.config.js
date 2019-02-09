@@ -1,17 +1,20 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 const path = require('path')
 
 const NODE_ENV = process.env.NODE_ENV || 'dev'
 const DEBUG = NODE_ENV === 'dev'
 
-
 const config = {
   production: {
-    watch: false
+    watch: false,
+    mode: 'production'
   },
   dev: {
-    watch: true
+    watch: true,
+    mode: 'development'
   }
 }
 
@@ -39,7 +42,6 @@ const webpackConfig = {
   },
   entry: path.join(__dirname, 'src/js/app.js'),
   devtool: '',
-  watch: config[NODE_ENV].watch,
   watchOptions: {
     poll: 5000
   },
@@ -90,20 +92,28 @@ const webpackConfig = {
       DEBUG: JSON.stringify(DEBUG),
 
     }),
-  ]
+  ],
 
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        test: /\.js(\?.*)?$/i,
+        uglifyOptions: {
+          compress: {
+            warnings: false
+          }
+        }
+      }),
+    ],
+  },
+
+  ...config[NODE_ENV],
 }
 
 if (NODE_ENV === 'production') {
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env': {
       'NODE_ENV': JSON.stringify('production')
-    }
-  }))
-
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
     }
   }))
 }
