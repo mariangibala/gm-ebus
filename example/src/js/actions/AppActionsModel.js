@@ -1,21 +1,22 @@
 'use strict'
 
 import doRequest from '../API'
-import {bindPromise, Actions}  from '../../../../lib'
+import { bindPromise, Actions } from '../../../../lib'
 
 class AppActionsModel extends Actions {
-
   static id = 'AppActions'
 
   /**
    * Example of manual promise handling
    */
   callFooAPI() {
-    doRequest('/foo').then(result => {
-      this.callFooAPICustomSuccessFunc(result)
-    }).catch(err => {
-      console.log(err)
-    })
+    doRequest('/foo')
+      .then((result) => {
+        this.callFooAPICustomSuccessFunc(result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   callFooAPICustomSuccessFunc(data) {
@@ -29,8 +30,6 @@ class AppActionsModel extends Actions {
   callBarAPI() {
     return doRequest('/bar')
   }
-
 }
 
 export default AppActionsModel
-

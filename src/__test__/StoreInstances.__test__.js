@@ -1,18 +1,16 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
+import { EventsBus, Store } from '../index'
 import Model from './shared/Model'
 
 describe('Store Instance', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-  it('correct for 1 model, 2 stores', function (done) {
-
+  it('correct for 1 model, 2 stores', function(done) {
     class AppStore extends Store {
       static model = Model
       static autoNames = true
@@ -28,12 +26,9 @@ describe('Store Instance', () => {
     assert.equal(store2.getState().value, 3)
 
     done()
-
   })
 
-
-  it('correct for 1 model, 2 Stores, core method', function (done) {
-
+  it('correct for 1 model, 2 Stores, core method', function(done) {
     class AppStore extends Store {
       static model = Model
     }
@@ -52,24 +47,21 @@ describe('Store Instance', () => {
     assert.equal(store2.getState().value, 3)
 
     done()
-
   })
 
-  it('correct for 1 model, 2 Interfaces, 2 stores, interface()->store() method', function (done) {
-
+  it('correct for 1 model, 2 Interfaces, 2 stores, interface()->store() method', function(done) {
     class AppStore extends Store {
       static model = Model
 
-      methodB(x){
+      methodB(x) {
         this.storeModelMethod(x)
       }
     }
 
-
     class AppStore2 extends Store {
       static model = Model
 
-      methodB(x){
+      methodB(x) {
         this.storeModelMethod(x)
       }
     }
@@ -84,10 +76,5 @@ describe('Store Instance', () => {
     assert.equal(store2.getState().value, 3)
 
     done()
-
   })
-
 })
-
-
-

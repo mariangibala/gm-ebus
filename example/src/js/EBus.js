@@ -1,9 +1,8 @@
-
-import {EventsBus}  from '../../../lib'
+import { EventsBus } from '../../../lib'
 
 const EBus = new EventsBus({
   debug: {
-    isActive: false
+    isActive: false,
   },
 })
 

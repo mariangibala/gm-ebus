@@ -1,6 +1,6 @@
 'use strict'
 
-import {EventsBus, Store} from '../index'
+import { EventsBus, Store } from '../index'
 
 function benchmark(config) {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,6 @@ function benchmark(config) {
     const EBus = new EventsBus()
 
     class AppStore extends Store {
-
       static model = class {
         value = 0
         arr = []
@@ -21,17 +20,16 @@ function benchmark(config) {
       }
     }
 
-    const store = new AppStore (EBus, config)
+    const store = new AppStore(EBus, config)
 
-    const logConfig = {...config}
+    const logConfig = { ...config }
     delete logConfig.name
     console.log(JSON.stringify(logConfig, null, 2))
     console.time('')
 
-
     let componentState = 0
 
-    store.listen(function(storeState){
+    store.listen(function(storeState) {
       componentState = storeState.value
     })
 
@@ -39,7 +37,7 @@ function benchmark(config) {
       store.increaseState(1)
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
       if (componentState !== iterations) {
         throw new Error('State is incorrect')
       }
@@ -51,25 +49,21 @@ function benchmark(config) {
 }
 
 async function init() {
-  await benchmark({getStateMethod: 'direct'})
-  await benchmark({getStateMethod: 'assign'})
-  await benchmark({getStateMethod: 'stringify'})
+  await benchmark({ getStateMethod: 'direct' })
+  await benchmark({ getStateMethod: 'assign' })
+  await benchmark({ getStateMethod: 'stringify' })
 
-  await benchmark({getStateMethod: 'direct', batch: true})
-  await benchmark({getStateMethod: 'assign', batch: true})
-  await benchmark({getStateMethod: 'stringify', batch: true})
+  await benchmark({ getStateMethod: 'direct', batch: true })
+  await benchmark({ getStateMethod: 'assign', batch: true })
+  await benchmark({ getStateMethod: 'stringify', batch: true })
 }
 
 describe('setState', () => {
-
-
-  it('getStateMethod 10000 store actions', function (done) {
+  it('getStateMethod 10000 store actions', function(done) {
     this.timeout(10000)
 
-    init().then(()=>{
+    init().then(() => {
       done()
     })
-
   })
-
 })

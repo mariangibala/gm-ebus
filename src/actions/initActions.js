@@ -3,9 +3,7 @@
 import normalizeOptions from '../utils/normalizeOptions'
 import createActions from './actionsConstructor'
 
-
 function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
-
   actionsOptions = normalizeOptions(actionsOptions)
 
   let modelName = actionsModel.constructor.id || actionsModel.constructor.name
@@ -18,10 +16,12 @@ function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
     modelName = undefined
   }
 
-  actionsOptions.namespace = actionsOptions.namespace || modelName
-    || EBusAPI.generateActionsNamespace('AppActions')
+  actionsOptions.namespace =
+    actionsOptions.namespace ||
+    modelName ||
+    EBusAPI.generateActionsNamespace('AppActions')
 
-  const {namespace} = actionsOptions
+  const { namespace } = actionsOptions
 
   if (!namespace) {
     throw new Error('Actions namespace is undefined')
@@ -35,10 +35,13 @@ function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
     throw new Error(`Actions ${namespace} model is undefined`)
   }
 
-  const actions = createActions(actionsModel, {...EBusAPI.getConfig, ...actionsOptions}, EBusAPI)
+  const actions = createActions(
+    actionsModel,
+    { ...EBusAPI.getConfig, ...actionsOptions },
+    EBusAPI,
+  )
 
   EBusAPI.addActions(namespace, actions)
-
 }
 
 export default initActions

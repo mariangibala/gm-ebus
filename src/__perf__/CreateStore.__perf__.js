@@ -1,12 +1,9 @@
 'use strict'
 
-import {EventsBus, Store} from '../index'
-
+import { EventsBus, Store } from '../index'
 
 describe('createStore', () => {
-
-
-  it('time and memory', function (done) {
+  it('time and memory', function(done) {
     this.timeout(10000)
     let startTime = Date.now()
 
@@ -30,10 +27,5 @@ describe('createStore', () => {
     console.log(`Took ${time} ms`)
     console.log(`The script uses approximately ${used} MB`)
     done()
-
   })
-
 })
-
-
-

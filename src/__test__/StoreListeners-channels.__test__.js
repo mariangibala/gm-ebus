@@ -1,28 +1,26 @@
 'use strict'
 
-import {EventsBus, Store} from '../index'
+import { EventsBus, Store } from '../index'
 
 describe('Store listeners - channels', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-  it('channel listeners are separated from "global" listeners', function (done) {
-
+  it('channel listeners are separated from "global" listeners', function(done) {
     let calledA = 0
     let calledB = 0
 
     class AppStore extends Store {}
     const store = new AppStore(EBus)
 
-    store.listen(function () {
+    store.listen(function() {
       calledA++
     })
 
-    store.listenChannel('channelName', function () {
+    store.listenChannel('channelName', function() {
       calledB++
     })
 
@@ -41,9 +39,4 @@ describe('Store listeners - channels', () => {
 
     done()
   })
-
-
 })
-
-
-

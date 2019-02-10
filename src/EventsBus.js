@@ -6,7 +6,6 @@ import initActions from './actions/initActions'
 const packageJSON = require('../package.json')
 
 function EBusConstructor(eventsBusConfig) {
-
   const internals = {}
 
   Object.defineProperties(internals, {
@@ -14,23 +13,23 @@ function EBusConstructor(eventsBusConfig) {
       enumerable: true,
       value: {
         debug: false,
-        ...eventsBusConfig
-      }
+        ...eventsBusConfig,
+      },
     },
 
     stores: {
       enumerable: true,
-      value: {}
+      value: {},
     },
 
     interfaces: {
       enumerable: true,
-      value: {}
+      value: {},
     },
 
     actions: {
       enumerable: true,
-      value: {}
+      value: {},
     },
 
     // It's incremental id counter, not a number of stores/actions.
@@ -43,15 +42,14 @@ function EBusConstructor(eventsBusConfig) {
     actionsIdCounter: {
       enumerable: true,
       value: 0,
-      writable: true
+      writable: true,
     },
 
     isDispatching: {
       enumerable: true,
       value: false,
-      writable: true
-    }
-
+      writable: true,
+    },
   })
 
   const internalAPI = {
@@ -113,12 +111,10 @@ function EBusConstructor(eventsBusConfig) {
       } finally {
         internals.isDispatching = false
       }
-
-    }
+    },
   }
 
   class EventsBus {
-
     constructor() {
       this.version = packageJSON.version
     }
@@ -126,7 +122,7 @@ function EBusConstructor(eventsBusConfig) {
     serialize() {
       const globalState = {}
 
-      Object.keys(internals.stores).forEach(el => {
+      Object.keys(internals.stores).forEach((el) => {
         globalState[el] = internals.stores[el].getState()
       })
 
@@ -139,7 +135,6 @@ function EBusConstructor(eventsBusConfig) {
       }
       return result
     }
-
   }
 
   // todo if DEV
@@ -160,9 +155,8 @@ function EBusConstructor(eventsBusConfig) {
     EventsBus: EBus,
     internals,
     connectActions,
-    connectStore
+    connectStore,
   }
 }
-
 
 export default EBusConstructor

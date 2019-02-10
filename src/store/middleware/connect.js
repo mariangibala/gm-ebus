@@ -5,12 +5,16 @@ import shouldConnect from './shouldConnect'
 import getOwnProps from '../../utils/getOwnPropeties'
 
 const defaultMiddleware = {
-  debug: debug
+  debug: debug,
 }
 
-
-function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSrc) {
-
+function applyMiddleware(
+  storeConfig,
+  targetPrototype,
+  instance,
+  sources,
+  funcSrc,
+) {
   let middlewareList
   if (storeConfig.middleware) {
     middlewareList = [...storeConfig.middleware]
@@ -19,11 +23,10 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
   }
 
   if (storeConfig.debug.isActive) {
-    middlewareList.push({...storeConfig.debug, connect: debug})
+    middlewareList.push({ ...storeConfig.debug, connect: debug })
   }
 
   function bindMethod(proto, key, levelType) {
-
     if (typeof proto[key] !== 'function') {
       return
     }
@@ -43,7 +46,6 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
       originalFunc = proto[key]
     }
 
-
     /*
       We don't want to modify storeModel prototype (it may be used for many stores),
       so point where to save modified functions (probably coreModel which is unique for each store)
@@ -56,38 +58,41 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
       target = proto
     }
 
-    const middleware = middlewareList.map(middleware => {
+    const middleware = middlewareList
+      .map((middleware) => {
+        // We accept a few formats here, so lets normalize.
 
-      // We accept a few formats here, so lets normalize.
+        let middlewareConfig = {}
 
-      let middlewareConfig = {}
+        if (typeof middleware === 'function') {
+          middlewareConfig.connect = middleware
+        } else if (typeof middleware === 'object' && middleware.connect) {
+          middlewareConfig = { ...middleware }
 
-      if (typeof middleware === 'function') {
-        middlewareConfig.connect = middleware
-      } else if (typeof middleware === 'object' && middleware.connect) {
-        middlewareConfig = {...middleware}
-
-        if (typeof middleware.connect === 'string' && defaultMiddleware[middleware.connect]) {
-          middlewareConfig.connect = defaultMiddleware[middleware.connect]
+          if (
+            typeof middleware.connect === 'string' &&
+            defaultMiddleware[middleware.connect]
+          ) {
+            middlewareConfig.connect = defaultMiddleware[middleware.connect]
+          }
         }
 
-      }
+        if (
+          !middlewareConfig.connect ||
+          typeof middlewareConfig.connect !== 'function'
+        ) {
+          console.error('Unrecognized middleware: ', middleware)
+          return
+        }
 
-      if (!middlewareConfig.connect || typeof middlewareConfig.connect !== 'function') {
-        console.error('Unrecognized middleware: ', middleware)
-        return
-      }
+        if (shouldConnect(middlewareConfig, key, levelType) === false) {
+          return
+        }
 
-
-      if (shouldConnect(middlewareConfig, key, levelType) === false) {
-        return
-      }
-
-      const connectArgs = [storeConfig, key, middleware.config || {}]
-      return middlewareConfig.connect.apply(null, connectArgs)
-
-    })
-      .filter(result => {
+        const connectArgs = [storeConfig, key, middleware.config || {}]
+        return middlewareConfig.connect.apply(null, connectArgs)
+      })
+      .filter((result) => {
         /*
          Middleware may implement internal check shouldConnect.
          If it want to be connected it's supposed to return function.
@@ -100,8 +105,7 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
     Create higher order function, to wrap targeted method into middleware support
     */
     if (middleware.length) {
-      target[key] = function (...args) {
-
+      target[key] = function(...args) {
         const _args = middleware.reduce((args, func) => {
           return func(args)
         }, args)
@@ -115,8 +119,8 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
     }
   }
 
-  sources.forEach(config => {
-    const {proto, name, type} = config
+  sources.forEach((config) => {
+    const { proto, name, type } = config
 
     if (!proto) return
 
@@ -124,10 +128,8 @@ function applyMiddleware(storeConfig, targetPrototype, instance, sources, funcSr
       console.log(storeConfig.name, ' Wrapping middleware to: ', name)
     }
 
-    getOwnProps(proto).forEach(key => bindMethod(proto, key, type))
+    getOwnProps(proto).forEach((key) => bindMethod(proto, key, type))
   })
-
-
 }
 
 export default applyMiddleware

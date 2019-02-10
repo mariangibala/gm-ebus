@@ -4,10 +4,9 @@ import SecondaryStore from '../stores/SecondaryStore'
 import MainStore from '../stores/MainStore'
 
 class Module5 extends React.Component {
-
   state = {
     mainStore: {},
-    secondaryStore: {}
+    secondaryStore: {},
   }
 
   componentWillMount() {
@@ -21,11 +20,11 @@ class Module5 extends React.Component {
   }
 
   onChangeSecondaryStore = (state) => {
-    this.setState({secondaryStore: state})
+    this.setState({ secondaryStore: state })
   }
 
   onChangeMainStore = (state) => {
-    this.setState({mainStore: state})
+    this.setState({ mainStore: state })
   }
 
   render() {
@@ -38,6 +37,4 @@ class Module5 extends React.Component {
   }
 }
 
-
 module.exports = Module5
-

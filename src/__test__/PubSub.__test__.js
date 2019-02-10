@@ -1,19 +1,16 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
-import {AppActions, StoreModel, handlers} from './shared/app'
+import { EventsBus, Store } from '../index'
+import { AppActions, StoreModel, handlers } from './shared/app'
 
 describe('PubSub', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-
-  it('calls callback for new listener, returns state in callback argument', function (done) {
-
+  it('calls callback for new listener, returns state in callback argument', function(done) {
     class AppStore extends Store {
       static model = StoreModel
     }
@@ -37,8 +34,7 @@ describe('PubSub', () => {
     done()
   })
 
-  it('pub/sub sync action', function (done) {
-
+  it('pub/sub sync action', function(done) {
     const actions = new AppActions(EBus)
 
     class AppStore extends Store {
@@ -74,12 +70,9 @@ describe('PubSub', () => {
     assert.equal(onChangeCalled, 8)
 
     done()
-
   })
 
-
-  it('basic sync + async pub/sub', function (done) {
-
+  it('basic sync + async pub/sub', function(done) {
     const actions = new AppActions(EBus)
 
     class AppStore extends Store {
@@ -98,7 +91,6 @@ describe('PubSub', () => {
       onChangeCalled++
     }
 
-
     store1.listen(onChange)
     store2.listen(onChange)
 
@@ -109,10 +101,9 @@ describe('PubSub', () => {
     actions.increaseStateByPromise(1)
     actions.increaseState(1)
 
-    actions.increaseStateByPromise(1, {shouldReject: true})
+    actions.increaseStateByPromise(1, { shouldReject: true })
 
-    setTimeout(function () {
-
+    setTimeout(function() {
       assert.equal(store1.getState().value, 6)
       assert.equal(store2.getState().value, 6)
 
@@ -123,19 +114,17 @@ describe('PubSub', () => {
       assert.equal(onChangeCalled, 14)
       done()
     }, 100)
-
   })
 
-  it('basic pub/sub with batch', function (done) {
-
+  it('basic pub/sub with batch', function(done) {
     const actions = new AppActions(EBus)
 
     class AppStore extends Store {
       static model = StoreModel
     }
 
-    const store1 = new AppStore(EBus, {name: 'AppStore1', batch: true})
-    const store2 = new AppStore(EBus, {name: 'AppStore2', batch: true})
+    const store1 = new AppStore(EBus, { name: 'AppStore1', batch: true })
+    const store2 = new AppStore(EBus, { name: 'AppStore2', batch: true })
 
     store1.connect(actions, handlers)
     store2.connect(actions, handlers)
@@ -156,10 +145,9 @@ describe('PubSub', () => {
     actions.increaseStateByPromise(1)
     actions.increaseState(1)
 
-    actions.increaseStateByPromise(1, {shouldReject: true})
+    actions.increaseStateByPromise(1, { shouldReject: true })
 
-
-    setTimeout(function () {
+    setTimeout(function() {
       assert.equal(store1.getState().value, 6)
       assert.equal(store2.getState().value, 6)
 
@@ -171,11 +159,9 @@ describe('PubSub', () => {
 
       done()
     }, 100)
-
   })
 
-  it('can call method on a store Interface', function (done) {
-
+  it('can call method on a store Interface', function(done) {
     class AppStore extends Store {
       static model = StoreModel
 
@@ -206,13 +192,6 @@ describe('PubSub', () => {
 
     assert.equal(onChange1Called, 4)
 
-
     done()
-
   })
-
-
 })
-
-
-

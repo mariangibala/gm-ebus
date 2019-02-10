@@ -3,11 +3,9 @@
 import normalizeOptions from '../utils/normalizeOptions'
 import createStore from './storeConstructor'
 
-
 function isStoreConfig(a) {
-  return (typeof a === 'object' || typeof a === 'string') ? true : false
+  return typeof a === 'object' || typeof a === 'string' ? true : false
 }
-
 
 function initStore(EBusAPI, storeInterface, config) {
   const constructor = storeInterface.__proto__.constructor
@@ -33,11 +31,11 @@ function initStore(EBusAPI, storeInterface, config) {
   */
   let autoNames
 
-  if (process.env.NODE_ENV === 'production'){
+  if (process.env.NODE_ENV === 'production') {
     autoNames = true
   }
 
-  if (!storeConfig.name){
+  if (!storeConfig.name) {
     if (constructor.autoNames || autoNames) {
       storeConfig.name = EBusAPI.generateStoreName('AppStore')
     } else {
@@ -45,9 +43,9 @@ function initStore(EBusAPI, storeInterface, config) {
     }
   }
 
-  const {name} = storeConfig
+  const { name } = storeConfig
 
-  if (!name){
+  if (!name) {
     throw new Error(`Store name cannot be undefined`)
   }
 
@@ -60,12 +58,13 @@ function initStore(EBusAPI, storeInterface, config) {
     storeModel = class AppStore {}
   }
 
-  const storeInstance = createStore(storeModel, storeInterface,
-    {...EBusAPI.getConfig(), ...storeConfig})
+  const storeInstance = createStore(storeModel, storeInterface, {
+    ...EBusAPI.getConfig(),
+    ...storeConfig,
+  })
 
   EBusAPI.addStore(name, storeInstance.store)
   EBusAPI.exposeInterface(name, storeInstance.storeInterface)
-
 }
 
 export default initStore

@@ -1,9 +1,8 @@
 'use strict'
 
 import EBus from '../EBus'
-import {Store}  from '../../../../lib'
+import { Store } from '../../../../lib'
 import AppActions from '../actions/AppActions'
-
 
 class MainStore extends Store {
   static model = class {
@@ -27,4 +26,3 @@ class MainStore extends Store {
 const store = new MainStore(EBus).connect(AppActions)
 
 export default store
-

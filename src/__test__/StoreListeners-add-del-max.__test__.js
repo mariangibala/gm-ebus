@@ -1,19 +1,16 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
+import { EventsBus, Store } from '../index'
 const sinon = require('sinon')
 
 describe('Store listeners - add, del, max', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-
-  it('warns user when listeners > default maxListeners', function (done) {
-
+  it('warns user when listeners > default maxListeners', function(done) {
     sinon.stub(console, 'warn').callsFake(() => {})
 
     class AppStore extends Store {}
@@ -31,12 +28,11 @@ describe('Store listeners - add, del, max', () => {
     done()
   })
 
-  it('warns user when listeners > defined maxListeners', function (done) {
-
+  it('warns user when listeners > defined maxListeners', function(done) {
     sinon.stub(console, 'warn').callsFake(() => {})
 
     class AppStore extends Store {}
-    const store = new AppStore(EBus, {maxListeners: 20})
+    const store = new AppStore(EBus, { maxListeners: 20 })
 
     let x = 22
 
@@ -50,8 +46,7 @@ describe('Store listeners - add, del, max', () => {
     done()
   })
 
-  it('adds/removes listeners', function (done) {
-
+  it('adds/removes listeners', function(done) {
     class AppStore extends Store {}
     const store = new AppStore(EBus)
 
@@ -62,21 +57,20 @@ describe('Store listeners - add, del, max', () => {
     const functions = []
 
     for (let x = 0; x < 3; x++) {
-      functions[x] = () => {};
+      functions[x] = () => {}
       store.listen(functions[x])
     }
 
     listeners = store.getListeners()
     assert.equal(listeners.size, 3)
 
-    functions.forEach(func => store.unlisten(func))
+    functions.forEach((func) => store.unlisten(func))
     assert.equal(listeners.size, 0)
 
     done()
   })
 
-  it('adds/removes channel listeners', function (done) {
-
+  it('adds/removes channel listeners', function(done) {
     class AppStore extends Store {}
     const store = new AppStore(EBus)
 
@@ -87,7 +81,7 @@ describe('Store listeners - add, del, max', () => {
     const functions = []
 
     for (let x = 0; x < 3; x++) {
-      functions[x] = () => {};
+      functions[x] = () => {}
       store.listenChannel(x, functions[x])
     }
 
@@ -100,16 +94,14 @@ describe('Store listeners - add, del, max', () => {
     done()
   })
 
-
-  it('uses console.error for error in listener', function (done) {
-
+  it('uses console.error for error in listener', function(done) {
     sinon.stub(console, 'error').callsFake(() => {})
 
     class AppStore extends Store {}
     const store = new AppStore(EBus)
 
     let someExternalData = {
-      value: 0
+      value: 0,
     }
 
     function onChange() {
@@ -129,8 +121,4 @@ describe('Store listeners - add, del, max', () => {
 
     done()
   })
-
 })
-
-
-

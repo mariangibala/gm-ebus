@@ -3,9 +3,8 @@
 import SecondaryStore from '../stores/SecondaryStore'
 
 class Module4 extends React.Component {
-
   state = {
-    value: null
+    value: null,
   }
 
   componentWillMount() {
@@ -28,12 +27,10 @@ class Module4 extends React.Component {
     return (
       <div className="module">
         <h3>4</h3>
-        <textarea onChange={this.updateText} value={this.state.value}/>
+        <textarea onChange={this.updateText} value={this.state.value} />
       </div>
     )
   }
 }
 
-
 module.exports = Module4
-

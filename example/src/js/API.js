@@ -16,7 +16,7 @@ const API = {
   '/bar'() {
     this.bar += 1
     return this.bar
-  }
+  },
 }
 
 /**
@@ -24,7 +24,7 @@ const API = {
  * In a real app it would be some http module like superagent
  */
 function doRequest(endpoint) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(API[endpoint]())
     }, 50)

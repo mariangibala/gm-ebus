@@ -3,7 +3,6 @@
 import MainStore from '../stores/MainStore'
 
 class Module2 extends React.Component {
-
   componentWillMount() {
     MainStore.listen(this.onChange)
   }
@@ -26,6 +25,4 @@ class Module2 extends React.Component {
   }
 }
 
-
 module.exports = Module2
-

@@ -3,7 +3,6 @@
 import MainStore from '../stores/MainStore'
 
 class Module6 extends React.Component {
-
   state = {}
 
   componentWillMount() {
@@ -32,12 +31,11 @@ class Module6 extends React.Component {
           type="range"
           min="0"
           max="500"
-          step="1"/>
+          step="1"
+        />
       </div>
     )
   }
 }
 
-
 module.exports = Module6
-

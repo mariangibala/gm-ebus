@@ -12,17 +12,16 @@ import middlewareLevels from './middleware/levels'
 import warn from '../utils/warn'
 
 function createStore(Model, storeInterface, passedStoreConfig) {
-
   const storeConfig = {
     debug: {
-      isActive: false
+      isActive: false,
     },
     batch: false,
     maxListeners: 100,
     getStateMethod: 'assign',
     name: undefined,
     middleware: [],
-    ...passedStoreConfig
+    ...passedStoreConfig,
   }
 
   const internals = {
@@ -35,7 +34,7 @@ function createStore(Model, storeInterface, passedStoreConfig) {
     isMounted: false,
 
     /* Log placeholder for warnings (some of them should be thrown only once) */
-    warnings: new Map()
+    warnings: new Map(),
   }
 
   let actionsToBind = []
@@ -44,15 +43,13 @@ function createStore(Model, storeInterface, passedStoreConfig) {
   if (typeof storeConfig.debug !== 'object') {
     let status = storeConfig.debug
     storeConfig.debug = {
-      isActive: status
+      isActive: status,
     }
   }
-
 
   if (storeConfig.debug.isActive !== false) {
     console.log('Initialized store: ', JSON.stringify(storeConfig, null, 2))
   }
-
 
   class InternalStore extends Model {
     constructor() {
@@ -61,30 +58,36 @@ function createStore(Model, storeInterface, passedStoreConfig) {
       moveFunctionsToPrototype(storeConfig, InternalStore, this)
 
       connectMiddleware(storeConfig, InternalStore.prototype, this, [
-        {proto: InternalStore.prototype, name: 'Core', level: middlewareLevels.CORE},
-        {proto: Model.prototype, name: 'InternalStore Model', level: middlewareLevels.STORE},
+        {
+          proto: InternalStore.prototype,
+          name: 'Core',
+          level: middlewareLevels.CORE,
+        },
+        {
+          proto: Model.prototype,
+          name: 'InternalStore Model',
+          level: middlewareLevels.STORE,
+        },
       ])
 
       internals.isMounted = true
-
     }
 
-
     connect(actions, handlers_) {
-
       let handlers
-      if (handlers_){
+      if (handlers_) {
         handlers = handlers_
-      } else if (actions.__proto__.constructor.id){
+      } else if (actions.__proto__.constructor.id) {
         const actionsId = actions.__proto__.constructor.id
-        const actionsHandlers = storeInterface.__proto__.constructor['$'+ actionsId]
+        const actionsHandlers =
+          storeInterface.__proto__.constructor['$' + actionsId]
 
-        if (actionsHandlers){
+        if (actionsHandlers) {
           handlers = actionsHandlers
         }
       }
 
-      if (!handlers){
+      if (!handlers) {
         console.error('Trying to connect actions without handlers')
         return this
       }
@@ -99,7 +102,6 @@ function createStore(Model, storeInterface, passedStoreConfig) {
     }
 
     set(prop, val, e) {
-
       /*
        Prevent propagation when action is called directly by event, lets say: onClick
        and el is nested in other el connected to a store too with own onClick handler
@@ -122,12 +124,16 @@ function createStore(Model, storeInterface, passedStoreConfig) {
     }
 
     listen(callback, options = {}) {
-
-      const {name, init = true} = options
+      const { name, init = true } = options
 
       if (internals.listeners.size > storeConfig.maxListeners) {
-        warn('maxListeners', internals.warnings,
-          `${storeConfig.name} reached maxListeners (${storeConfig.maxListeners})`)
+        warn(
+          'maxListeners',
+          internals.warnings,
+          `${storeConfig.name} reached maxListeners (${
+            storeConfig.maxListeners
+          })`,
+        )
       }
 
       if (typeof callback !== 'function') {
@@ -136,19 +142,23 @@ function createStore(Model, storeInterface, passedStoreConfig) {
 
       internals.listeners.set(callback, name)
       if (init) callback(this.getState())
-
     }
 
     listenChannel(channelId, callback, options = {}) {
-
-      const {name, init = true} = options
+      const { name, init = true } = options
 
       if (!internals.channelListeners[channelId]) {
         internals.channelListeners[channelId] = new Map()
-      } else if (internals.channelListeners[channelId].size > storeConfig.maxListeners) {
-        warn('maxListeners-' + channelId, internals.warnings,
-          `${storeConfig.name} reached maxListeners (${storeConfig.maxListeners})` +
-          `for ${channelId} channel`)
+      } else if (
+        internals.channelListeners[channelId].size > storeConfig.maxListeners
+      ) {
+        warn(
+          'maxListeners-' + channelId,
+          internals.warnings,
+          `${storeConfig.name} reached maxListeners (${
+            storeConfig.maxListeners
+          })` + `for ${channelId} channel`,
+        )
       }
 
       if (typeof callback !== 'function') {
@@ -187,22 +197,33 @@ function createStore(Model, storeInterface, passedStoreConfig) {
     static getStoreName() {
       return storeConfig.name
     }
-
   }
 
   InternalStore.prototype.handlers = {}
   InternalStore.prototype.getState = decorateWithGetState(storeConfig)
-  InternalStore.prototype.emitChange = decorateWithEmitChange(storeConfig, internals)
+  InternalStore.prototype.emitChange = decorateWithEmitChange(
+    storeConfig,
+    internals,
+  )
   InternalStore.prototype.internals = internals
-
 
   validateModel(storeConfig, Model, InternalStore)
 
   const store = new InternalStore()
 
-  connectMiddleware(storeConfig, storeInterface, store, [
-    {proto: storeInterface.__proto__, name: 'Interface', level: middlewareLevels.INTERFACE}
-  ], store)
+  connectMiddleware(
+    storeConfig,
+    storeInterface,
+    store,
+    [
+      {
+        proto: storeInterface.__proto__,
+        name: 'Interface',
+        level: middlewareLevels.INTERFACE,
+      },
+    ],
+    store,
+  )
 
   const expose = [
     'getState',
@@ -216,17 +237,14 @@ function createStore(Model, storeInterface, passedStoreConfig) {
     'getListeners',
     'getChannelListeners',
     'getConfig',
-    'emitChange'
+    'emitChange',
   ]
 
-
-  expose.forEach(key => {
+  expose.forEach((key) => {
     storeInterface[key] = store[key].bind(store)
   })
 
-
-  return {store, storeInterface}
+  return { store, storeInterface }
 }
-
 
 export default createStore

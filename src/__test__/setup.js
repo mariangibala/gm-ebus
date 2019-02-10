@@ -7,5 +7,3 @@ global.expect = require('chai').expect
 global.DEBUG = false
 
 process.env.NODE_ENV = 'TEST'
-
-

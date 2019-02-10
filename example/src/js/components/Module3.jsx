@@ -3,9 +3,8 @@
 import SecondaryStore from '../stores/SecondaryStore'
 
 class Module3 extends React.Component {
-
   state = {
-    value: null
+    value: null,
   }
 
   componentWillMount() {
@@ -30,6 +29,4 @@ class Module3 extends React.Component {
   }
 }
 
-
 module.exports = Module3
-

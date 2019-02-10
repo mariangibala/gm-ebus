@@ -1,31 +1,10 @@
 {
   "rules": {
-    "no-unused-vars": [
-      1
-    ],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "quotes": [
-      2,
-      "single",
-      {
-        "allowTemplateLiterals": true
-      }
-    ],
-    "linebreak-style": [
-      0,
-      "windows"
-    ],
-    "semi": [
-      0
-    ],
+    "no-unused-vars": [1],
+    "linebreak-style": [0, "windows"],
     "no-console": 0,
-    "react/jsx-uses-vars": 1
+    "react/jsx-uses-vars": 1,
+    "prettier/prettier": "error"
   },
   "env": {
     "es6": true,
@@ -34,7 +13,6 @@
     "jquery": true,
     "mocha": true
   },
-  "extends": "eslint:recommended",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -43,9 +21,8 @@
       "classes": true
     }
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react", "prettier"],
+  "extends": ["eslint:recommended", "prettier"],
   "parser": "babel-eslint",
   "globals": {
     "React": true,

@@ -1,20 +1,17 @@
 'use strict'
 
-import {EventsBus, Actions, Store} from '../index'
+import { EventsBus, Actions, Store } from '../index'
 
 describe('Actions - create', () => {
-
   let EBus
 
-
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
   ////////////////////
 
-  it('uses id as namespace', function (done) {
-
+  it('uses id as namespace', function(done) {
     class AppActions extends Actions {
       static id = 'CustomID'
     }
@@ -27,8 +24,7 @@ describe('Actions - create', () => {
 
   ////////////////////
 
-  it('uses class name as namespace', function (done) {
-
+  it('uses class name as namespace', function(done) {
     class CustomNameActions extends Actions {}
 
     const actions = new CustomNameActions(EBus)
@@ -39,18 +35,12 @@ describe('Actions - create', () => {
 
   ////////////////////
 
-  it('uses namespace option', function (done) {
-
+  it('uses namespace option', function(done) {
     class AppActions extends Actions {}
 
-    const actions = new AppActions(EBus, {namespace: 'CustomNamespace'})
+    const actions = new AppActions(EBus, { namespace: 'CustomNamespace' })
     assert.exists(EBus.internals.actions.CustomNamespace)
 
     done()
   })
-
-
 })
-
-
-

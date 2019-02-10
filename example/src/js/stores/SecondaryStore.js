@@ -2,7 +2,7 @@
 
 import EBus from '../EBus'
 import AppActions from '../actions/AppActions'
-import {Store}  from '../../../../lib'
+import { Store } from '../../../../lib'
 
 class SecondaryStore extends Store {
   static model = class {
@@ -12,7 +12,6 @@ class SecondaryStore extends Store {
       this[prop] = value
       this.emitChange()
     }
-
   }
 
   static $AppActions = class {
@@ -21,10 +20,9 @@ class SecondaryStore extends Store {
     }
   }
 
-  setCustomFunc(){}
+  setCustomFunc() {}
 }
 
 const store = new SecondaryStore(EBus).connect(AppActions)
 
 export default store
-

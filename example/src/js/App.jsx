@@ -9,21 +9,20 @@ import Module6 from './components/Module6'
 import Module7 from './components/Module7'
 
 class App extends React.Component {
-
   render() {
     return (
       <div>
         <h1>gm-ebus example</h1>
 
         <div id="dashboard">
-          <Module1/>
-          <Module1/>
-          <Module2/>
-          <Module3/>
-          <Module4/>
-          <Module5/>
-          <Module6/>
-          <Module7/>
+          <Module1 />
+          <Module1 />
+          <Module2 />
+          <Module3 />
+          <Module4 />
+          <Module5 />
+          <Module6 />
+          <Module7 />
         </div>
       </div>
     )

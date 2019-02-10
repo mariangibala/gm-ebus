@@ -1,17 +1,15 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
+import { EventsBus, Store } from '../index'
 
 describe('Store Interface', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-  it('doesn\'t expose private native methods', function (done) {
-
+  it("doesn't expose private native methods", function(done) {
     class AppStore extends Store {}
     const store = new AppStore(EBus)
 
@@ -21,14 +19,12 @@ describe('Store Interface', () => {
       expect(err).to.be.an('error')
       done()
     }
-
   })
 
-  it('doesn\'t expose private userModel methods', function (done) {
-
+  it("doesn't expose private userModel methods", function(done) {
     class AppStore extends Store {
       static model = class {
-        someMethod(){}
+        someMethod() {}
       }
     }
 
@@ -40,24 +36,16 @@ describe('Store Interface', () => {
       expect(err).to.be.an('error')
       done()
     }
-
   })
 
-
-  it('exposes public Interface methods', function (done) {
-
+  it('exposes public Interface methods', function(done) {
     class AppStore extends Store {
-      someMethod(){}
+      someMethod() {}
     }
 
     const store = new AppStore(EBus)
     store.someMethod()
 
     done()
-
   })
-
 })
-
-
-

@@ -3,7 +3,6 @@
 import AppActions from '../actions/AppActions'
 
 class Module7 extends React.Component {
-
   callApiA = () => {
     AppActions.callFooAPI()
   }
@@ -23,6 +22,4 @@ class Module7 extends React.Component {
   }
 }
 
-
 module.exports = Module7
-

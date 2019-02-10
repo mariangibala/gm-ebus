@@ -1,23 +1,20 @@
 'use strict'
 
-import {EventsBus, Store}  from '../index'
+import { EventsBus, Store } from '../index'
 
 describe('CreateStore - naming', () => {
-
   let EBus
 
-  beforeEach(function () {
+  beforeEach(function() {
     EBus = EventsBus()
   })
 
-
-  it('creates stores with correct names', function (done) {
-
+  it('creates stores with correct names', function(done) {
     class AppStore extends Store {}
 
     new AppStore(EBus)
     new AppStore(EBus, 'Store2')
-    new AppStore(EBus, {name: 'Store3'})
+    new AppStore(EBus, { name: 'Store3' })
 
     assert.isDefined(EBus.internals.stores.AppStore)
     assert.isDefined(EBus.internals.stores.Store2)
@@ -26,9 +23,7 @@ describe('CreateStore - naming', () => {
     done()
   })
 
-
-  it('throws err when name is already taken', function (done) {
-
+  it('throws err when name is already taken', function(done) {
     class AppStore extends Store {}
     new AppStore(EBus)
 
@@ -41,9 +36,7 @@ describe('CreateStore - naming', () => {
     done()
   })
 
-
-  it('Creates model and names automatically when model is not passed', function (done) {
-
+  it('Creates model and names automatically when model is not passed', function(done) {
     class AppStore extends Store {
       static autoNames = true
     }
@@ -58,9 +51,4 @@ describe('CreateStore - naming', () => {
 
     done()
   })
-
-
 })
-
-
-

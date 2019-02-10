@@ -5,7 +5,6 @@
  */
 
 function includeEmitChange(storeConfig, internals) {
-
   function emitChange(changeId) {
     const currentState = this.getState()
 
@@ -30,11 +29,13 @@ function includeEmitChange(storeConfig, internals) {
   }
 
   if (storeConfig.batch) {
-
     const batchTime = 30 // how long cumulate batch events?
 
-    return function (changeId) {
-      if (internals.lastChangeTime && (Date.now() - internals.lastChangeTime) < batchTime) {
+    return function(changeId) {
+      if (
+        internals.lastChangeTime &&
+        Date.now() - internals.lastChangeTime < batchTime
+      ) {
         return
       }
 
@@ -44,13 +45,9 @@ function includeEmitChange(storeConfig, internals) {
         emitChange.call(this, changeId)
       }, batchTime)
     }
-
   } else {
     return emitChange
   }
-
 }
 
 export default includeEmitChange
-
-

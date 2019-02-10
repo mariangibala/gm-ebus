@@ -4,7 +4,7 @@
  Used to decorate storeModel with a selected getState method
 */
 const getStateMethods = {
-  stringify: function () {
+  stringify: function() {
     let state
     try {
       state = JSON.parse(JSON.stringify(this))
@@ -13,12 +13,12 @@ const getStateMethods = {
     }
     return state
   },
-  direct: function () {
+  direct: function() {
     return this
   },
-  assign: function () {
-    return {...this}
-  }
+  assign: function() {
+    return { ...this }
+  },
 }
 
 function includeGetState(storeConfig) {
@@ -26,5 +26,3 @@ function includeGetState(storeConfig) {
 }
 
 export default includeGetState
-
-

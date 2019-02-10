@@ -2,34 +2,37 @@
 
 const defaultConfig = {
   clearConsole: false,
-  logFuncInArgs: false            // log function or just (f)
+  logFuncInArgs: false, // log function or just (f)
 }
 
 // Some shared module "globals"
 
 let lastLog = Date.now()
 
-const colors = ['crimson', 'blueviolet', 'darkred', 'royalblue', 'limegreen', 'coral',
-  'deeppink', 'lightseagreen', 'brown', 'orange']
+const colors = [
+  'crimson',
+  'blueviolet',
+  'darkred',
+  'royalblue',
+  'limegreen',
+  'coral',
+  'deeppink',
+  'lightseagreen',
+  'brown',
+  'orange',
+]
 
 let colorsQueue = colors.slice()
 const colorsMap = {}
 
-
 function debugMiddlewareHandler(methodConfig, args) {
-
-  const {
-    config,
-    log
-  } = methodConfig
+  const { config, log } = methodConfig
 
   const logFuncInArgs = config.logFuncInArgs
-
 
   let logArgs
 
   if (args && args.length) {
-
     logArgs = []
 
     try {
@@ -39,7 +42,6 @@ function debugMiddlewareHandler(methodConfig, args) {
           logArgs[index] = '(f)'
 
           if (logFuncInArgs) console.log(el)
-
         } else {
           logArgs[index] = el
         }
@@ -51,7 +53,6 @@ function debugMiddlewareHandler(methodConfig, args) {
       logArgs = args
     }
   }
-
 
   if (config.clearConsole) {
     if (Date.now() - lastLog > 6000) {
@@ -82,7 +83,6 @@ function debugMiddlewareHandler(methodConfig, args) {
   return args
 }
 
-
 function getColor(storeName) {
   if (colorsMap[storeName]) return colorsMap[storeName]
 
@@ -95,15 +95,14 @@ function getColor(storeName) {
   return colorsMap[storeName]
 }
 
-
 function connect(storeConfig, methodName, middlewareConfig) {
-  const {name} = storeConfig
+  const { name } = storeConfig
 
   let config
   if (typeof debug === 'object') {
-    config = {...defaultConfig, ...middlewareConfig}
+    config = { ...defaultConfig, ...middlewareConfig }
   } else {
-    config = {...defaultConfig}
+    config = { ...defaultConfig }
   }
 
   console.log(`${name} debugger connected to ${methodName}`)
@@ -111,18 +110,22 @@ function connect(storeConfig, methodName, middlewareConfig) {
   const color = getColor(name)
 
   let log
-  if (typeof window === 'undefined' || /Edge/.test(window.navigator.userAgent)) {
+  if (
+    typeof window === 'undefined' ||
+    /Edge/.test(window.navigator.userAgent)
+  ) {
     log = [`${name} ${methodName}`]
   } else {
     log = [`%c${name} ${methodName}`, `color: ${color};`]
   }
 
-  return debugMiddlewareHandler.bind(null, {
-    log,
-    config,
-  }, /*args*/)
-
+  return debugMiddlewareHandler.bind(
+    null,
+    {
+      log,
+      config,
+    } /*args*/,
+  )
 }
-
 
 export default connect

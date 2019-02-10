@@ -1,33 +1,23 @@
 'use strict'
 
 function shouldConnect(middlewareConfig, methodName, levelType) {
+  const { isActive, only, exclude, onlyLevel, excludeLevel } = middlewareConfig
 
-  const {
-    isActive,
-    only,
-    exclude,
-    onlyLevel,
-    excludeLevel
-  } = middlewareConfig
-  
-  const expectArrays = [
-    only,
-    exclude,
-    onlyLevel,
-    excludeLevel
-  ]
-  
-  expectArrays.forEach(el =>{
-    if (el && Array.isArray(el) === false){
-      console.error('Middleware connection config incorrect. Expected Array but received:', el)
+  const expectArrays = [only, exclude, onlyLevel, excludeLevel]
+
+  expectArrays.forEach((el) => {
+    if (el && Array.isArray(el) === false) {
+      console.error(
+        'Middleware connection config incorrect. Expected Array but received:',
+        el,
+      )
     }
   })
 
   if (isActive === false) return false
 
-  let shouldConnectByMethodName 
-  let shouldConnectByLevel 
-
+  let shouldConnectByMethodName
+  let shouldConnectByLevel
 
   if (onlyLevel) {
     if (onlyLevel.includes(levelType)) shouldConnectByLevel = true
@@ -45,8 +35,7 @@ function shouldConnect(middlewareConfig, methodName, levelType) {
     shouldConnectByMethodName = true
   }
 
-
-  return (shouldConnectByMethodName && shouldConnectByLevel) ? true : false
+  return shouldConnectByMethodName && shouldConnectByLevel ? true : false
 }
 
 export default shouldConnect
