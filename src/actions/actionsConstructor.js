@@ -69,9 +69,9 @@ function createActions(instance, options_, EBusApi) {
             actions[successFunc].call(null, result)
           })
           .catch((err) => {
-            // make possible to register err handler
-            // (like superagent?)
-            //console.error(err)
+            if (options.actionsErrorHandler) {
+              options.actionsErrorHandler(err)
+            }
           })
       }
     } else {

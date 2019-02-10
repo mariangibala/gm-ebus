@@ -7,7 +7,7 @@ describe('PubSub', () => {
   let EBus
 
   beforeEach(function() {
-    EBus = EventsBus()
+    EBus = new EventsBus({ actionsErrorHandler: false })
   })
 
   it('calls callback for new listener, returns state in callback argument', function(done) {

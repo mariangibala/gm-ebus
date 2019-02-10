@@ -17,6 +17,10 @@ const API = {
     this.bar += 1
     return this.bar
   },
+
+  '/error'() {
+    return { message: 'API Request Fake Error', isError: true }
+  },
 }
 
 /**
@@ -24,9 +28,14 @@ const API = {
  * In a real app it would be some http module like superagent
  */
 function doRequest(endpoint) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(API[endpoint]())
+      const result = API[endpoint]()
+      if (result.isError) {
+        reject(result)
+      } else {
+        resolve()
+      }
     }, 50)
   })
 }

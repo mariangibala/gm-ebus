@@ -30,6 +30,11 @@ class AppActionsModel extends Actions {
   callBarAPI() {
     return doRequest('/bar')
   }
+
+  @bindPromise
+  callErrorAPI() {
+    return doRequest('/error')
+  }
 }
 
 export default AppActionsModel

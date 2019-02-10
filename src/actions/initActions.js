@@ -37,7 +37,7 @@ function initActions(EBusAPI, actionsModel, actionsOptions = {}) {
 
   const actions = createActions(
     actionsModel,
-    { ...EBusAPI.getConfig, ...actionsOptions },
+    { ...EBusAPI.getConfig(), ...actionsOptions },
     EBusAPI,
   )
 

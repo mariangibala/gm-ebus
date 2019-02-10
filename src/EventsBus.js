@@ -13,6 +13,9 @@ function EBusConstructor(eventsBusConfig) {
       enumerable: true,
       value: {
         debug: false,
+        actionsErrorHandler: function(err) {
+          console.error(err)
+        },
         ...eventsBusConfig,
       },
     },

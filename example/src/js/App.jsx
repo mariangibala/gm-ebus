@@ -7,6 +7,7 @@ import Module4 from './components/Module4'
 import Module5 from './components/Module5'
 import Module6 from './components/Module6'
 import Module7 from './components/Module7'
+import Module8 from './components/Module8'
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ class App extends React.Component {
           <Module5 />
           <Module6 />
           <Module7 />
+          <Module8 />
         </div>
       </div>
     )

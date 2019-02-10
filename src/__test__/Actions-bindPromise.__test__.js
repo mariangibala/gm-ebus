@@ -18,11 +18,40 @@ describe('Actions - bindPromise', () => {
     EBus = EventsBus()
   })
 
-  it('bindsPromise - decorator method', function(done) {
+  it('bindsPromise - decorator method (Q)', function(done) {
     class AppActions extends Actions {
       @bindPromise
       increaseState(increaseValue) {
         return Q.Promise((resolve) => {
+          setTimeout(function() {
+            resolve(increaseValue)
+          }, 10)
+        })
+      }
+    }
+
+    const actions = new AppActions(EBus)
+
+    const store = new AppStore(EBus).connect(actions, {
+      increaseStateSuccess(val) {
+        this.value += val
+      },
+    })
+
+    actions.increaseState(1)
+    actions.increaseState(1)
+
+    setTimeout(function() {
+      assert.equal(store.getState().value, 2)
+      done()
+    }, 50)
+  })
+
+  it('bindsPromise - decorator method (native Promise)', function(done) {
+    class AppActions extends Actions {
+      @bindPromise
+      increaseState(increaseValue) {
+        return new Promise((resolve) => {
           setTimeout(function() {
             resolve(increaseValue)
           }, 10)
