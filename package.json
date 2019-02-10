@@ -6,9 +6,10 @@
   "scripts": {
     "build-cjs": "rimraf lib && babel ./src -d lib",
     "dev": "rimraf lib && babel ./src -d lib --watch",
-    "perf": "mocha --compilers js:babel-core/register \"./src/**/*.__perf__.js\"",
+    "test:perf": "mocha --compilers js:babel-core/register \"./src/**/*.__perf__.js\"",
     "test:file": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js",
-    "test": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js \"./src/**/*.__test__.js\"",
+    "test:lib": "mocha --compilers js:babel-core/register --require ./src/__test__/setup.js \"./src/**/*.__test__.js\"",
+    "test": "yarn run test:lib && yarn run test:perf",
     "example": "webpack-dev-server --config ./example/webpack.config.js --inline --hot",
     "example:production": "cross-env NODE_ENV=production webpack-dev-server --config ./example/webpack.config.js",
     "prepublishOnly": "yarn run test && yarn run build-cjs"
